@@ -91,7 +91,7 @@ app.post('/verify-account', async function (request, response) {
     }
 })
 
-const api = app.listen(process.env.PORT, '127.0.0.1', function () {
+const api = app.listen(process.env.PORT, '0.0.0.0', function () {
     const host = api.address().address
     const port = api.address().port
     console.log('Barkeep Kessing API listening at https://%s:%s', host, port)
