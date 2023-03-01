@@ -16,3 +16,4 @@ RUN npm ci
 COPY . .
 
 CMD ["npm", "run", "start"]
+
