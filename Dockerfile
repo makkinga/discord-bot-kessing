@@ -10,8 +10,10 @@ RUN apt install -y build-essential
 RUN apt install -y python3
 RUN apt install -y chromium
 
+COPY package*.json .
+RUN npm ci
+
 COPY . .
 
-RUN npm ci
 
 CMD ["npm", "run", "start"]
