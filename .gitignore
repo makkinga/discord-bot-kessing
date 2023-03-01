@@ -1,9 +1,10 @@
-/.idea
-/.github
-/node_modules/
-/.env
-/package-lock.json
-/yarn.lock
-/logs
+.idea
+.github
+.env
+
+yarn.lock
+
+node_modules
+logs
 
 !/**/.gitkeep

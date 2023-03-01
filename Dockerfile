@@ -12,4 +12,6 @@ RUN apt install -y chromium
 
 COPY . .
 
-RUN npm install
+RUN npm ci
+
+CMD ["npm", "run", "start"]
