@@ -6,6 +6,11 @@ const express                                           = require('express')
 const app                                               = express()
 const cors                                              = require('cors')
 const CryptoJS                                          = require('crypto-js')
+const {REST}                                            = require('@discordjs/rest')
+const {Routes}                                          = require('discord-api-types/v9')
+const clientId                                          = process.env.CLIENT_ID
+const guildId                                           = process.env.GUILD_ID
+const token                                             = process.env.DISCORD_TOKEN
 dotenv.config()
 
 /************************************************************/
@@ -20,12 +25,20 @@ client.once('ready', () => {
     console.log('Ready!')
 })
 
+const commands     = []
 client.commands    = new Collection()
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`)
     client.commands.set(command.data.name, command)
+    commands.push(command.data.toJSON())
 }
+
+const rest = new REST({version: '10'}).setToken(token)
+
+rest.put(Routes.applicationGuildCommands(clientId, guildId), {body: commands})
+    .then(() => console.log('Successfully registered application commands.'))
+    .catch(console.error)
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return

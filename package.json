@@ -9,6 +9,7 @@
     "author": "Gyd0x",
     "license": "MIT",
     "dependencies": {
+        "@discordjs/rest": "^1.5.0",
         "@slack/webhook": "^6.1.0",
         "axios": "^1.3.3",
         "bignumber.js": "^9.0.2",
