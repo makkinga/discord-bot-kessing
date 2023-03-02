@@ -1,10 +1,8 @@
 const {Sequelize} = require('sequelize')
-const dotenv      = require('dotenv')
-dotenv.config()
 
 /* Database */
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host   : process.env.DB_HOST,
+    host          : process.env.DB_HOST,
     dialect       : process.env.DB_DIALECT,
     logging       : false,
     dialectOptions: {
@@ -39,15 +37,23 @@ exports.nonceCount = sequelize.define('nonce', {
 
 /* Account holders */
 exports.accountHolders = sequelize.define('account_holders', {
-    user   : {
+    user     : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    address: {
+    address  : {
         type     : Sequelize.STRING,
         allowNull: false,
     },
-    role   : {
+    role     : {
+        type   : Sequelize.BOOLEAN,
+        default: false
+    },
+    show_name: {
+        type   : Sequelize.BOOLEAN,
+        default: true
+    },
+    send_dm  : {
         type   : Sequelize.BOOLEAN,
         default: false
     }

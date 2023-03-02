@@ -152,12 +152,30 @@ exports.split = async function (interaction, members, from, to, token, amount, r
         return await React.error(interaction, 3, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
     }
 
-    const rain   = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
-    const rained = artifact.name === 'CRYSTAL' ? 'snowed' : 'rained'
-    const embed  = new EmbedBuilder()
-        .setAuthor({name: `@${interaction.user.username} ${rained} ${amount} ${artifact.name}` + (role ? ` on @${role.name}` : ''), iconURL: config.token_icons[artifact.name]})
-        .setFields({name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: members.map(m => `@${m.username}#${m.discriminator}`).join(', ')},)
+    const rain           = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
+    const rained         = artifact.name === 'CRYSTAL' ? 'snowed' : 'rained'
+    let hiddenMembers    = 0
+    let memberList       = []
+    const accountHolders = await DB.accountHolders.findAll({
+        where     : {
+            user: members.map(m => m.id)
+        },
+        attributes: ['user', 'show_name']
+    })
 
+    for (const m of members) {
+        const holder = accountHolders.find(h => h.user === m.id)
+
+        if (holder.show_name) {
+            memberList.push(`@${m.username}#${m.discriminator}`)
+        } else {
+            hiddenMembers++
+        }
+    }
+    const embed = new EmbedBuilder().setAuthor({name: `@${interaction.user.username} ${rained} ${amount} ${artifact.name}` + (role ? ` on @${role.name}` : ''), iconURL: config.token_icons[artifact.name]})
+    if (hiddenMembers < members.length) {
+        embed.setFields({name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: `${memberList.join(', ')}${(hiddenMembers > 0 ? ` +${hiddenMembers} others` : '')}`},)
+    }
     const fields = [
         {name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: members.map(m => `@${m.username}#${m.discriminator}`).join('\n ')},
         {name: Lang.trans(interaction, 'rain.total_tipped'), value: `${amount} ${artifact.name}`, inline: true},

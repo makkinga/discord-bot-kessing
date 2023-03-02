@@ -129,7 +129,7 @@ async function accountRoles()
         try {
             const role   = client.guilds.cache.get(process.env.GUILD_ID).roles.cache.find(role => role.id === process.env.ACCOUNT_ROLE)
             const member = client.guilds.cache.get(process.env.GUILD_ID).members.cache.find(member => member.id === account.user)
-            if (member) {
+            if (role && member) {
                 await member.roles.add(role)
                 await account.update({role: true})
             }
