@@ -8,10 +8,10 @@ const cors                                              = require('cors')
 const CryptoJS                                          = require('crypto-js')
 const {REST}                                            = require('@discordjs/rest')
 const {Routes}                                          = require('discord-api-types/v9')
+dotenv.config()
 const clientId                                          = process.env.CLIENT_ID
 const guildId                                           = process.env.GUILD_ID
 const token                                             = process.env.DISCORD_TOKEN
-dotenv.config()
 
 /************************************************************/
 /* BOT
