@@ -7,6 +7,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     dialectOptions: {
         socketPath    : process.env.INSTANCE_UNIX_SOCKET,
         connectTimeout: 30000,
+        debug         : true,
+        trace         : true,
         pool          : {
             max    : 30,
             min    : 0,
