@@ -25,15 +25,15 @@ DB.syncDatabase().then(() => {
 
 // const fs                                                = require('fs')
 // const {Client, Collection, GatewayIntentBits, Partials} = require('discord.js')
-// const dotenv                                            = require('dotenv')
+const dotenv  = require('dotenv')
 // const {DB, React, Token, Lang, Log, Account}            = require('./utils')
-// const express                                           = require('express')
-// const app                                               = express()
-// const cors                                              = require('cors')
+const express = require('express')
+const app     = express()
+const cors    = require('cors')
 // const CryptoJS                                          = require('crypto-js')
 // const {REST}                                            = require('@discordjs/rest')
 // const {Routes}                                          = require('discord-api-types/v9')
-// dotenv.config()
+dotenv.config()
 // const clientId                                          = process.env.CLIENT_ID
 // const guildId                                           = process.env.GUILD_ID
 // const token                                             = process.env.DISCORD_TOKEN
@@ -168,9 +168,9 @@ DB.syncDatabase().then(() => {
 // /* API
 // /************************************************************/
 //
-// app.use(cors())
-// app.options('*', cors())
-// app.use(express.json())
+app.use(cors())
+app.options('*', cors())
+app.use(express.json())
 //
 // // Add headers before the routes are defined
 // app.use(function (req, res, next) {
@@ -238,8 +238,8 @@ DB.syncDatabase().then(() => {
 //     }
 // })
 //
-// const api = app.listen(process.env.PORT, '0.0.0.0', function () {
-//     const host = api.address().address
-//     const port = api.address().port
-//     console.log('Barkeep Kessing API listening at https://%s:%s', host, port)
-// })
+const api = app.listen(process.env.PORT, '0.0.0.0', function () {
+    const host = api.address().address
+    const port = api.address().port
+    console.log('Barkeep Kessing API listening at https://%s:%s', host, port)
+})
