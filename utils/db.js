@@ -1,5 +1,25 @@
 const {Sequelize} = require('sequelize')
 
+const { exec } = require('child_process');
+
+exec(`ls -l ${process.env.INSTANCE_UNIX_SOCKET}`, (error, stdout, stderr) => {
+    if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+    }
+    console.log(`stdout:\n${stdout}`);
+    console.log(`stderr:\n${stderr}`);
+});
+
+exec('whoami', (error, stdout, stderr) => {
+    if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+    }
+    console.log(`stdout:\n${stdout}`);
+    console.log(`stderr:\n${stderr}`);
+});
+
 /* Database */
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     dialect       : process.env.DB_DIALECT,
