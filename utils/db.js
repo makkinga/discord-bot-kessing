@@ -7,14 +7,13 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     dialectOptions: {
         socketPath    : process.env.INSTANCE_UNIX_SOCKET,
         connectTimeout: 30000,
+        pool          : {
+            max    : 30,
+            min    : 0,
+            acquire: 30000,
+            idle   : 10000
+        }
     },
-    pool: {
-      max    : 30,
-      min    : 0,
-      acquire: 30000,
-      idle   : 10000
-    }
-
 })
 
 /**
@@ -27,7 +26,16 @@ exports.syncDatabase = async function () {
     await this.pendingGifts.truncate()
     await this.giftCooldown.sync()
     await this.messageCount.sync()
+    await this.pineConeCounter.sync()
 }
+
+/* Debug table */
+exports.pineConeCounter = sequelize.define('pine_cone_count', {
+    pine_cones: {
+        type     : Sequelize.INTEGER,
+        allowNull: false,
+    },
+}, {freezeTableName: true})
 
 /* Nonce counter */
 exports.nonceCount = sequelize.define('nonce', {
@@ -40,10 +48,10 @@ exports.nonceCount = sequelize.define('nonce', {
         type     : Sequelize.INTEGER,
         allowNull: false,
     },
-})
+}, {freezeTableName: true})
 
 /* Account holders */
-exports.accountHolders = sequelize.define('account_holders', {
+exports.accountHolders = sequelize.define('account_holder', {
     user     : {
         type     : Sequelize.STRING,
         allowNull: false,
@@ -67,7 +75,7 @@ exports.accountHolders = sequelize.define('account_holders', {
 })
 
 /* Pending gifts */
-exports.pendingGifts = sequelize.define('pending_gifts', {
+exports.pendingGifts = sequelize.define('pending_gift', {
     author: {
         type     : Sequelize.STRING,
         allowNull: false,
@@ -108,4 +116,4 @@ exports.messageCount = sequelize.define('message_count', {
         type     : Sequelize.INTEGER,
         allowNull: false,
     },
-})
+}, {freezeTableName: true})
