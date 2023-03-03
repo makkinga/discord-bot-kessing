@@ -1,52 +1,20 @@
 const {Sequelize} = require('sequelize')
 
-const { exec } = require('child_process');
-
-exec(`ls -l ${process.env.INSTANCE_UNIX_SOCKET}`, (error, stdout, stderr) => {
-    if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-    }
-    console.log(`stdout:\n${stdout}`);
-    console.log(`stderr:\n${stderr}`);
-});
-
-exec('whoami', (error, stdout, stderr) => {
-    if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-    }
-    console.log(`stdout:\n${stdout}`);
-    console.log(`stderr:\n${stderr}`);
-});
-
 /* Database */
-console.log(1) // REMOVE
-console.log({
-    'DB_NAME'             : process.env.DB_NAME,
-    'DB_USER'             : process.env.DB_USER,
-    'DB_PASSWORD'         : process.env.DB_PASSWORD,
-    'DB_DIALECT'          : process.env.DB_DIALECT,
-    'INSTANCE_UNIX_SOCKET': process.env.INSTANCE_UNIX_SOCKET
-}) // REMOVE
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     dialect       : process.env.DB_DIALECT,
     logging       : true,
     dialectOptions: {
-        socketPath: process.env.INSTANCE_UNIX_SOCKET
+        socketPath    : process.env.INSTANCE_UNIX_SOCKET,
+        connectTimeout: 10000
     },
 })
-console.log(2) // REMOVE
-console.log(sequelize) // REMOVE
-
 
 /**
  * Sync database
  */
 exports.syncDatabase = async function () {
-    console.log(3) // REMOVE
     await this.nonceCount.sync()
-    console.log(4) // REMOVE
     await this.accountHolders.sync()
     await this.pendingGifts.sync()
     await this.pendingGifts.truncate()
