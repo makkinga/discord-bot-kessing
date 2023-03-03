@@ -19,7 +19,7 @@ async function countPineCones()
 }
 
 DB.syncDatabase().then(() => {
-    setInterval(async () => await countPineCones(), 5000)
+    // setInterval(async () => await countPineCones(), 5000)
 })
 
 
