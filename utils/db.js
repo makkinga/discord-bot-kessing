@@ -3,7 +3,7 @@ const {Sequelize} = require('sequelize')
 /* Database */
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     dialect       : process.env.DB_DIALECT,
-    logging       : true,
+    logging       : false,
     dialectOptions: {
         socketPath    : process.env.INSTANCE_UNIX_SOCKET,
         connectTimeout: 10000
