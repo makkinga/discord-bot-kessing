@@ -20,6 +20,8 @@ async function countPineCones()
 
 DB.syncDatabase().then(() => {
     // setInterval(async () => await countPineCones(), 5000)
+}).catch(error => {
+    console.log(error) // REMOVE
 })
 
 
