@@ -73,6 +73,7 @@ client.on('interactionCreate', async interaction => {
     if (!command) return
 
     try {
+        console.log(`COMMAND INCOMING: ${JSON.stringify(interaction)}`)
         await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
