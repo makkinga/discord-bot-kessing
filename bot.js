@@ -52,7 +52,8 @@ client.on('interactionCreate', async interaction => {
 
     try {
         console.log(`COMMAND INCOMING`)  // REMOVE
-        await command.execute(interaction)
+        await interaction.reply({content: `Pong!`, ephemeral: true})
+        // await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
 
