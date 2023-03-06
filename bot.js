@@ -41,19 +41,17 @@ rest.put(Routes.applicationGuildCommands(clientId, guildId), {body: commands})
     .catch(console.error)
 
 client.on('interactionCreate', async interaction => {
-    console.log('foo') // REMOVE
     if (!interaction.isCommand()) return
+
+    await interaction.deferReply()
 
     const command = client.commands.get(interaction.commandName)
 
     if (!command) return
 
-    console.log(command) // REMOVE
-
     try {
         console.log(`COMMAND INCOMING`)  // REMOVE
-        await interaction.reply({content: `Pong!`, ephemeral: true})
-        // await command.execute(interaction)
+        await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
 
