@@ -13,31 +13,6 @@ const clientId                                          = process.env.CLIENT_ID
 const guildId                                           = process.env.GUILD_ID
 const token                                             = process.env.DISCORD_TOKEN
 
-async function countPineCones()
-{
-    let pineConeCount = await DB.pineConeCounter
-      .findOne({where: {id: 1}})
-      .then((row) => {
-          if (row) {
-              return row
-          }
-
-          return DB.pineConeCounter.create({
-              pine_cones: 1
-          })
-      })
-
-    await pineConeCount.increment({pine_cones: 1}, {where: {id: 1}})
-    console.log(`${pineConeCount.pine_cones} pine cones`) // REMOVE
-}
-
-DB.syncDatabase().then(() => {
-    setInterval(async () => await countPineCones(), 5000)
-}).catch(error => {
-    console.log(error) // REMOVE
-})
-
-
 /************************************************************/
 /* BOT
 /************************************************************/
@@ -66,14 +41,17 @@ rest.put(Routes.applicationGuildCommands(clientId, guildId), {body: commands})
     .catch(console.error)
 
 client.on('interactionCreate', async interaction => {
+    console.log('foo') // REMOVE
     if (!interaction.isCommand()) return
 
     const command = client.commands.get(interaction.commandName)
 
     if (!command) return
 
+    console.log(command) // REMOVE
+
     try {
-        console.log(`COMMAND INCOMING: ${JSON.stringify(interaction)}`)
+        console.log(`COMMAND INCOMING: ${JSON.stringify(interaction)}`)  // REMOVE
         await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
