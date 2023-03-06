@@ -1,9 +1,32 @@
 version: "3.9"
 services:
-  bot:
+  kessing:
     build: .
+    image: kessing:latest
+    restart: unless-stopped
+    volumes:
+      - ./:/app
     ports:
       - ${API_PORT}:${API_PORT}
+    links:
+      - database
+
+  database:
+    image: mysql:8
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    secrets:
+      - mysql-root-pw
+    environment:
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root-pw
     volumes:
-      - "./:/app"
-    restart: on-failure
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
+    external: true
+
+secrets:
+  mysql-root-pw:
+    file: ~/keys/mysql-root-pw.txt

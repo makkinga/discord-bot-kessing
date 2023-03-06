@@ -10,9 +10,9 @@ RUN apt-get install -y vim nano
 RUN apt install -y build-essential
 RUN apt install -y python3
 RUN apt install -y chromium
-RUN apt install -y yarn
-RUN yarn global add pm2
+RUN npm install -g pm2
 
-RUN yarn install --frozen-lockfile
+COPY package*.json ./
+RUN npm ci
 
 CMD ["pm2-runtime", "ecosystem.config.js"]
