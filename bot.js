@@ -1,21 +1,13 @@
-const fs                                                = require('fs')
 const {Client, Collection, GatewayIntentBits, Partials} = require('discord.js')
-const dotenv  = require('dotenv')
-const {DB, React, Token, Lang, Log, Account}            = require('./utils')
-const express = require('express')
-const app     = express()
-const cors    = require('cors')
-const CryptoJS                                          = require('crypto-js')
-const {REST}                                            = require('@discordjs/rest')
-const {Routes}                                          = require('discord-api-types/v9')
+const dotenv                                            = require('dotenv')
 dotenv.config()
-const clientId                                          = process.env.CLIENT_ID
-const guildId                                           = process.env.GUILD_ID
-const token                                             = process.env.DISCORD_TOKEN
-
-/************************************************************/
-/* BOT
-/************************************************************/
+const fs                            = require('fs')
+const {DB, React, Token, Lang, Log} = require('./utils')
+const {REST}                        = require('@discordjs/rest')
+const {Routes}                      = require('discord-api-types/v9')
+const clientId                      = process.env.CLIENT_ID
+const guildId                       = process.env.GUILD_ID
+const token                         = process.env.DISCORD_TOKEN
 
 // Create a new client instance
 const client = new Client({intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel]})
@@ -43,14 +35,11 @@ rest.put(Routes.applicationGuildCommands(clientId, guildId), {body: commands})
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return
 
-    await interaction.deferReply()
-
     const command = client.commands.get(interaction.commandName)
 
     if (!command) return
 
     try {
-        console.log(`COMMAND INCOMING`)  // REMOVE
         await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
@@ -72,6 +61,7 @@ client.login(process.env.DISCORD_TOKEN).then(async function () {
     setInterval(getTokenInfo, 30000)
     setInterval(setPresence, 5000)
     setInterval(async () => await accountRoles(client), 5000)
+    console.log('Running!')
 })
 
 // Set price presence
@@ -141,83 +131,3 @@ async function accountRoles()
         }
     }
 }
-
-/************************************************************/
-/* API
-/************************************************************/
-
-app.use(cors())
-app.options('*', cors())
-// app.use(express.json())
-
-// Add headers before the routes are defined
-app.use(function (req, res, next) {
-
-    // Website you wish to allow connecting
-    res.setHeader('Access-Control-Allow-Origin', '*')
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', '*')
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', '*')
-
-    // Pass to next layer of middleware
-    next()
-})
-
-app.get('/ping', async function (request, response) {
-    response.writeHead(200, {'Content-Type': 'application/json'})
-    response.write(JSON.stringify({success: true, message: `pong`}))
-    response.end()
-})
-
-app.post('/verify-account', async function (request, response) {
-    await DB.accountHolders.sync()
-    for (const param of ['id', 'address']) {
-        if (typeof request.body[param] === 'undefined') {
-            response.writeHead(400, {'Content-Type': 'application/json'})
-            response.write(JSON.stringify({success: false, message: `Missing parameter "${param}"`}))
-            response.end()
-
-            return
-        }
-    }
-
-    try {
-        const id      = await CryptoJS.AES.decrypt(request.body['id'].replaceAll(':p:', '+').replaceAll(':s:', '/'), process.env.CREATE_ACCOUNT_CYPHER_SECRET).toString(CryptoJS.enc.Utf8)
-        const address = await request.body['address']
-
-        if (await Account.verified(address)) {
-            response.writeHead(403, {'Content-Type': 'application/json'})
-            response.write(JSON.stringify({success: false, message: `Account already verified`}))
-            response.end()
-
-            return
-        }
-
-        await Account.verify(address, id)
-
-        await DB.accountHolders.create({
-            user   : id,
-            address: address,
-            role   : false
-        })
-
-        response.writeHead(200, {'Content-Type': 'application/json'})
-        response.write(JSON.stringify({success: true, id: id}))
-        response.end()
-    } catch (error) {
-        console.log(error)
-
-        response.writeHead(500, {'Content-Type': 'application/json'})
-        response.write(JSON.stringify({success: false, message: `An error occurred`}))
-        response.end()
-    }
-})
-
-const api = app.listen(process.env.PORT, '0.0.0.0', function () {
-    const host = api.address().address
-    const port = api.address().port
-    console.log('Barkeep Kessing API listening at https://%s:%s', host, port)
-})

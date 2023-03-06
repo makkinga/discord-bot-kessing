@@ -2,21 +2,9 @@ const {Sequelize} = require('sequelize')
 
 /* Database */
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host          : process.env.INSTANCE_UNIX_SOCKET,
-    dialect       : process.env.DB_DIALECT,
-    logging       : console.log,
-    dialectOptions: {
-        socketPath    : process.env.INSTANCE_UNIX_SOCKET,
-        connectTimeout: 30000,
-        debug         : true,
-        trace         : true,
-        pool          : {
-            max    : 30,
-            min    : 0,
-            acquire: 30000,
-            idle   : 10000
-        }
-    },
+    host   : process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    logging: false,
 })
 
 /**
@@ -25,27 +13,14 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 exports.syncDatabase = async function () {
     try {
         await sequelize.authenticate()
-        console.log('Connection has been established successfully.')
+        console.log('Database connection has been established successfully')
     } catch (error) {
         console.error('Unable to connect to the database:', error)
     }
 
-    await this.nonceCount.sync()
-    await this.accountHolders.sync()
-    await this.pendingGifts.sync()
     await this.pendingGifts.truncate()
-    await this.giftCooldown.sync()
-    await this.messageCount.sync()
-    await this.pineConeCounter.sync()
+    await sequelize.sync({alter: true})
 }
-
-/* Debug table */
-exports.pineConeCounter = sequelize.define('pine_cone_count', {
-    pine_cones: {
-        type     : Sequelize.INTEGER,
-        allowNull: false,
-    },
-}, {freezeTableName: true})
 
 /* Nonce counter */
 exports.nonceCount = sequelize.define('nonce', {
