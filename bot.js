@@ -51,7 +51,7 @@ client.on('interactionCreate', async interaction => {
     console.log(command) // REMOVE
 
     try {
-        console.log(`COMMAND INCOMING: ${JSON.stringify(interaction)}`)  // REMOVE
+        console.log(`COMMAND INCOMING`)  // REMOVE
         await command.execute(interaction)
     } catch (error) {
         await Log.error(interaction, 1, error)
