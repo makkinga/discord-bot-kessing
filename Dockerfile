@@ -9,11 +9,9 @@ RUN apt-get -y upgrade
 RUN apt install -y build-essential
 RUN apt install -y python3
 RUN apt install -y chromium
-RUN npm install pm2 -g
+RUN apt install -y yarn
+RUN yarn global add pm2
 
-COPY package*.json ./
-RUN npm ci
+RUN yarn install --frozen-lockfile
 
-COPY . .
-
-CMD ["pm2-runtime", "ecosystem.config.js", "--watch"]
+CMD ["pm2-runtime", "ecosystem.config.js"]

@@ -5,6 +5,7 @@
 yarn.lock
 
 node_modules
-logs
+chartscreens/*
+logs/*
 
 !/**/.gitkeep
