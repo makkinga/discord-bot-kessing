@@ -26,9 +26,7 @@ exports.address = async function (discordId) {
  * @param address
  */
 exports.canBeTipped = async function (address) {
-    const can = await bank.getAccountCanBeTipped(address)
-    console.log(`${address}: ${can}`) // REMOVE
-    return can
+    return await bank.getAccountCanBeTipped(address)
 }
 
 /**

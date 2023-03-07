@@ -1,13 +1,8 @@
 const {Client, Collection, GatewayIntentBits, Partials} = require('discord.js')
+const fs                                                = require('fs')
+const {DB, React, Token, Lang, Log}                     = require('./utils')
 const dotenv                                            = require('dotenv')
 dotenv.config()
-const fs                            = require('fs')
-const {DB, React, Token, Lang, Log} = require('./utils')
-const {REST}                        = require('@discordjs/rest')
-const {Routes}                      = require('discord-api-types/v9')
-const clientId                      = process.env.CLIENT_ID
-const guildId                       = process.env.GUILD_ID
-const token                         = process.env.DISCORD_TOKEN
 
 // Create a new client instance
 const client = new Client({intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel]})
@@ -17,20 +12,12 @@ client.once('ready', () => {
     console.log('Ready!')
 })
 
-const commands     = []
 client.commands    = new Collection()
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`)
     client.commands.set(command.data.name, command)
-    commands.push(command.data.toJSON())
 }
-
-const rest = new REST({version: '10'}).setToken(token)
-
-rest.put(Routes.applicationGuildCommands(clientId, guildId), {body: commands})
-    .then(() => console.log('Successfully registered application commands.'))
-    .catch(console.error)
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return
