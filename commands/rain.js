@@ -95,7 +95,7 @@ module.exports = {
             }
 
             // Only those who are worthy
-            const address = Account.address(message.author.id)
+            const address = await Account.address(message.author.id)
             if (!await Account.canBeTipped(address)) {
                 continue
             }

@@ -107,6 +107,10 @@
         "send_description": ":money_with_wings: Sent :amount :symbol to :to",
         "tipped_description": "@:user tipped you :amount :symbol in :channel"
     },
+    "display_name": {
+        "title": "Settings have been updated",
+        "description": "Display name is now :enabled"
+    },
     "error": {
         "title": {
             "bug_report": "Report a bug",

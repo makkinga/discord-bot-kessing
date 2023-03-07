@@ -133,6 +133,7 @@ exports.split = async function (interaction, members, from, to, token, amount, r
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
+    await checkGas(provider, signer)
     let transaction
 
     try {
@@ -199,6 +200,9 @@ exports.split = async function (interaction, members, from, to, token, amount, r
         )
 
     await interaction.user.send({embeds: [receiptEmbed], components: [explorerLink]})
+
+    await interaction.user.send({embeds: [receiptEmbed]})
+
     await interaction.editReply({embeds: [embed]})
 }
 
