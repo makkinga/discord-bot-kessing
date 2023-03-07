@@ -15,4 +15,6 @@ RUN npm install -g pm2
 COPY package*.json ./
 RUN npm ci
 
+COPY . .
+
 CMD ["pm2-runtime", "ecosystem.config.js"]
