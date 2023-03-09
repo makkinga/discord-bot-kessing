@@ -9,6 +9,8 @@ services:
       - ${API_PORT}:${API_PORT}
     links:
       - database
+    secrets:
+      - pm2-env
 
   database:
     image: mysql:8
@@ -17,7 +19,6 @@ services:
       - "3306:3306"
     secrets:
       - mysql-root-pw
-      - pm2-env
     environment:
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql-root-pw
     volumes:
