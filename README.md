@@ -4,10 +4,10 @@
 
 #### DeFi Kingdoms Discord Tipbot
 
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/DefiKingdoms/discord-bot-kessing?label=version&style=flat-square)
-![GitHub](https://img.shields.io/github/license/DefiKingdoms/discord-bot-kessing?style=flat-square)
-![GitHub last commit](https://img.shields.io/github/last-commit/DefiKingdoms/discord-bot-kessing?style=flat-square)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/DefiKingdoms/discord-bot-kessing?style=flat-square)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/makkinga/discord-bot-kessing?label=version&style=flat-square)
+![GitHub](https://img.shields.io/github/license/makkinga/discord-bot-kessing?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/makkinga/discord-bot-kessing?style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/makkinga/discord-bot-kessing?style=flat-square)
 
 Barkeep Kessing was built with :heart: by @Gyd0x for the DeFi Kingdoms Discord community.
 
