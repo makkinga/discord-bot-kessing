@@ -205,8 +205,6 @@ exports.split = async function (interaction, members, from, to, token, amount, r
 
     await interaction.user.send({embeds: [receiptEmbed], components: [explorerLink]})
 
-    await interaction.user.send({embeds: [receiptEmbed]})
-
     await interaction.editReply({embeds: [embed]})
 
     console.timeEnd(`transaction #${nonce}`)
