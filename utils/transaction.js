@@ -74,8 +74,9 @@ exports.make = async function (interaction, member, from, to, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
     const nonce    = await getNonce(provider, signer)
+    console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
-    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
+    const options        = {maxFeePerGas: 50000000000, maxPriorityFeePerGas: 4000000000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
@@ -110,6 +111,8 @@ exports.make = async function (interaction, member, from, to, token, amount) {
     await interaction.editReply({embeds: [embed]})
 
     await member.send({embeds: [toNotification]})
+
+    console.timeEnd(`transaction #${nonce}`)
 }
 
 /**
@@ -128,8 +131,9 @@ exports.split = async function (interaction, members, from, to, token, amount, r
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
     const nonce    = await getNonce(provider, signer)
+    console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
-    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
+    const options        = {maxFeePerGas: 50000000000, maxPriorityFeePerGas: 4000000000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
@@ -204,6 +208,8 @@ exports.split = async function (interaction, members, from, to, token, amount, r
     await interaction.user.send({embeds: [receiptEmbed]})
 
     await interaction.editReply({embeds: [embed]})
+
+    console.timeEnd(`transaction #${nonce}`)
 }
 
 /**
@@ -219,8 +225,9 @@ exports.burn = async function (interaction, from, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
     const nonce    = await getNonce(provider, signer)
+    console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
-    const options        = {gasPrice: await provider.getGasPrice(), gasLimit: 300000, nonce: nonce}
+    const options        = {maxFeePerGas: 50000000000, maxPriorityFeePerGas: 4000000000, nonce: nonce}
     const tipperContract = new ethers.Contract(tipperArtifact.address, tipperArtifact.abi, provider)
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
@@ -245,4 +252,6 @@ exports.burn = async function (interaction, from, token, amount) {
         .setAuthor({name: `@${interaction.user.username} burned ${amount} ${artifact.name} 💀`, iconURL: config.token_icons[artifact.name]})
 
     await interaction.editReply({embeds: [embed]})
+
+    console.timeEnd(`transaction #${nonce}`)
 }

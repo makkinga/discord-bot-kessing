@@ -6,10 +6,9 @@ const CryptoJS      = require('crypto-js')
 const dotenv        = require('dotenv')
 dotenv.config()
 
-
 app.use(cors())
 app.options('*', cors())
-// app.use(express.json())
+app.use(express.json())
 
 // Add headers before the routes are defined
 app.use(function (req, res, next) {

@@ -6,13 +6,14 @@ WORKDIR /app
 
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y vim nano
+RUN apt-get install -y neovim nano
 RUN apt install -y build-essential
 RUN apt install -y python3
 RUN apt install -y chromium
 RUN npm install -g pm2
 
 COPY package*.json ./
+
 RUN npm ci
 
 COPY . .
