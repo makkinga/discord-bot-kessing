@@ -19,7 +19,7 @@ exports.syncDatabase = async function () {
     }
 
     await this.pendingGifts.truncate()
-    await sequelize.sync({alter: true})
+    await sequelize.sync({alter: false})
 }
 
 /* Nonce counter */
