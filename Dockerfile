@@ -18,4 +18,5 @@ RUN npm ci
 
 COPY . .
 
+CMD ["pm2-plus.sh"]
 CMD ["pm2-runtime", "ecosystem.config.js"]
