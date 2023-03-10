@@ -4,7 +4,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] dd-mm-yyyy
+## [3.1.9] 10-03-2023
+
+### Added
+
+- Added the `/display-name` command. By default, all usernames that caught either rain or snow will be shown in the success message. By disabling this setting in the `/display-name` command you can hide your username.
+- Added transaction duration to logs (5a86421)
+
+### Fixed
+
+- Removed duplicate rain recipe (261d360)
+- Fixed account check that would always return true (261d360)
+- Fixed Docker build issues (79637a4, 5a86421, abd10ba, 3ba3ba1)
+- Enabled previously commented `express.json()` (5a86421)
+- Updated readme to show shields for the correct repo (1d0cbf2)
+- Disabled Sequelize alter to prevent errors in Docker build (4d74e6b)
+- Reordered `transaction.js` imports that were causing errors (52e13b8)
+- Disabled git version in `/about` as a temporary fix for the errors it was throwing (4173487)
+
+### Changed
+
+- Moved command registration back to its own file (5c8ab31)
+
+## [3.0.0] 02-03-2023
 
 ### Added
 
