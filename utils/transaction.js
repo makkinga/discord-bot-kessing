@@ -20,8 +20,7 @@ dotenv.config()
  * @param signer
  * @returns {Promise<void>}
  */
-async function getNonce(provider, signer)
-{
+exports.getNonce = async function (provider, signer) {
     let nonce
     nonce = await DB.nonceCount.findOne({where: {name: 'nonce'}})
 
@@ -73,7 +72,7 @@ async function checkGas(provider, signer)
 exports.make = async function (interaction, member, from, to, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce    = await getNonce(provider, signer)
+    const nonce    = await this.getNonce(provider, signer)
     console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
     const options        = {maxFeePerGas: 50000000000, maxPriorityFeePerGas: 4000000000, nonce: nonce}
@@ -130,7 +129,7 @@ exports.make = async function (interaction, member, from, to, token, amount) {
 exports.split = async function (interaction, members, from, to, token, amount, role = null) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce    = await getNonce(provider, signer)
+    const nonce    = await this.getNonce(provider, signer)
     console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
     const options        = {maxFeePerGas: 50000000000, maxPriorityFeePerGas: 4000000000, nonce: nonce}
@@ -222,7 +221,7 @@ exports.split = async function (interaction, members, from, to, token, amount, r
 exports.burn = async function (interaction, from, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce    = await getNonce(provider, signer)
+    const nonce    = await this.getNonce(provider, signer)
     console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
     const options        = {maxFeePerGas: 50000000000, maxPriorityFeePerGas: 4000000000, nonce: nonce}

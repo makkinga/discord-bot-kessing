@@ -1,13 +1,26 @@
-const {ethers} = require('ethers')
-const dotenv   = require('dotenv')
+const {ethers}    = require('ethers')
+const transaction = require('./transaction')
+const dotenv      = require('dotenv')
 dotenv.config()
 const bankArtifact = require(`../${process.env.ENV === 'local' ? 'artifacts-local' : 'artifacts'}/bank.json`)
-
-// Ethers
 const provider     = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
 const signer       = new ethers.Wallet(process.env.BOT_PKEY, provider)
 const bankContract = new ethers.Contract(bankArtifact.address, bankArtifact.abi, provider)
 const bank         = bankContract.connect(signer)
+
+/**
+ * Returns the transaction options
+ *
+ * @returns {Promise<{gasLimit: number, nonce: void, gasPrice: BigNumber}>}
+ */
+async function getOptions()
+{
+    return {
+        gasPrice: await provider.getGasPrice(),
+        gasLimit: 3000000,
+        nonce   : await transaction.getNonce(provider, signer)
+    }
+}
 
 /**
  * Returns the account's address
@@ -67,7 +80,7 @@ exports.verified = async function (address) {
  * @param id
  */
 exports.verify = async function (address, id) {
-    return await bank.verifyAccount(address, id)
+    return await bank.verifyAccount(address, id, await getOptions())
 }
 
 /**
@@ -87,7 +100,7 @@ exports.banned = async function (address) {
  * @param address
  */
 exports.ban = async function (address) {
-    return await bank.banAccount(address)
+    return await bank.banAccount(address, await getOptions())
 }
 
 /**
@@ -97,7 +110,7 @@ exports.ban = async function (address) {
  * @param address
  */
 exports.unban = async function (address) {
-    return await bank.unbanAccount(address)
+    return await bank.unbanAccount(address, await getOptions())
 }
 
 /**
