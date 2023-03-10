@@ -1,5 +1,6 @@
+const dotenv = require('dotenv')
+dotenv.config()
 const tipperArtifact                                  = require('../artifacts/tipper.json')
-const dotenv                                          = require('dotenv')
 const {ethers}                                        = require('ethers')
 const getRevertReason                                 = require('eth-revert-reason')
 const {EmbedBuilder, ActionRowBuilder, ButtonBuilder} = require('discord.js')
@@ -11,7 +12,6 @@ const React                                           = require('./react')
 const Lang                                            = require('./lang')
 const Log                                             = require('./log')
 const DB                                              = require('./db')
-dotenv.config()
 
 /**
  * Get nonce
@@ -50,7 +50,7 @@ exports.getNonce = async function (provider, signer) {
 async function checkGas(provider, signer)
 {
     let balance = await provider.getBalance(signer.address)
-    balance     = ethers.utils.formatEther(balance)
+    balance = ethers.utils.formatEther(balance)
     if (balance < 10) {
         await webhook.send({
             text: `Help <@U039W35R943>! I\'m running low on gas here! Only ${parseFloat(balance).toFixed(2)} JEWEL left before I completely run out!`,
