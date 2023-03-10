@@ -49,7 +49,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Show account')
-                    .setURL(process.env.GITBOOK_URL)
+                    .setURL(process.env.DASBBOARD_URL)
                     .setStyle('Link')
             )
 
@@ -57,7 +57,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Deposit')
-                    .setURL(process.env.GITBOOK_URL)
+                    .setURL(process.env.DASBBOARD_URL)
                     .setStyle('Link')
             )
 
@@ -65,7 +65,7 @@ module.exports = {
             .addComponents(
                 new ButtonBuilder()
                     .setLabel('Withdraw')
-                    .setURL(process.env.GITBOOK_URL)
+                    .setURL(process.env.DASBBOARD_URL)
                     .setStyle('Link')
             )
 
