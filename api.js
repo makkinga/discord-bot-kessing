@@ -48,6 +48,8 @@ app.post('/verify-account', async function (request, response) {
         const id      = await CryptoJS.AES.decrypt(request.body['id'].replaceAll(':p:', '+').replaceAll(':s:', '/'), process.env.CREATE_ACCOUNT_CYPHER_SECRET).toString(CryptoJS.enc.Utf8)
         const address = await request.body['address']
 
+        console.log(`Verification request for: ID: ${id}, Address: ${address}`)
+
         if (await Account.verified(address)) {
             response.writeHead(403, {'Content-Type': 'application/json'})
             response.write(JSON.stringify({success: false, message: `Account already verified`}))
