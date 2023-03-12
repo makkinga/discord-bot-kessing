@@ -24,8 +24,9 @@
     },
     "create": {
         "title": "Create your tipping account",
-        "description": "Please create your account using MetaMask by clicking the link below.",
-        "button": "Create my account"
+        "description": "You can create your tipping account using one of the buttons below.",
+        "button_mobile": "Create my account (MetaMask)",
+        "button_desktop": "Create my account (Browser)"
     },
     "ban": {
         "title": {
@@ -61,7 +62,9 @@
         "footer": "Source: DEX Screener"
     },
     "balance": {
-        "title": "Your balances"
+        "title": "Your balances",
+        "button_mobile": "Open account dashboard (MetaMask)",
+        "button_desktop": "Open account dashboard (Browser)"
     },
     "gift": {
         "title": "@:user sent a gift of :amount :symbol",

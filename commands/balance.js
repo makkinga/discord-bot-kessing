@@ -45,30 +45,22 @@ module.exports = {
             )
             .setTimestamp()
 
-        const accountButton = new ActionRowBuilder()
+        const mobileButton = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setLabel('Show account')
+                    .setLabel(Lang.trans(interaction, 'balance.button_mobile'))
+                    .setURL(process.env.DASBBOARD_DEEPLINK_URL)
+                    .setStyle('Link')
+            )
+
+        const desktopButton = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setLabel(Lang.trans(interaction, 'balance.button_desktop'))
                     .setURL(process.env.DASBBOARD_URL)
                     .setStyle('Link')
             )
 
-        const depositButton = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setLabel('Deposit')
-                    .setURL(process.env.DASBBOARD_URL)
-                    .setStyle('Link')
-            )
-
-        const withdrawButton = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setLabel('Withdraw')
-                    .setURL(process.env.DASBBOARD_URL)
-                    .setStyle('Link')
-            )
-
-        await interaction.editReply({embeds: [toNotification], components: [accountButton, depositButton, withdrawButton]})
+        await interaction.editReply({embeds: [toNotification], components: [mobileButton, desktopButton]})
     },
 }

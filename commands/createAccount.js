@@ -20,14 +20,25 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'create.title'))
             .setDescription(Lang.trans(interaction, 'create.description'))
 
-        const button = new ActionRowBuilder()
+
+        const queryString = `?id=${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`
+
+        const mobileButton = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setLabel(Lang.trans(interaction, 'create.button'))
-                    .setURL(`${process.env.DASBBOARD_URL}?id=${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`)
+                    .setLabel(Lang.trans(interaction, 'create.button_mobile'))
+                    .setURL(`${process.env.DASBBOARD_DEEPLINK_URL}${queryString}`)
                     .setStyle('Link')
             )
 
-        await interaction.editReply({embeds: [embed], components: [button]})
+        const desktopButton = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setLabel(Lang.trans(interaction, 'create.button_desktop'))
+                    .setURL(`${process.env.DASBBOARD_URL}${queryString}`)
+                    .setStyle('Link')
+            )
+
+        await interaction.editReply({embeds: [embed], components: [mobileButton, desktopButton]})
     },
 }
