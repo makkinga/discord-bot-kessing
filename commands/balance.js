@@ -2,7 +2,7 @@ const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder} = req
 const table                                                                = require('text-table')
 const config                                                               = require('../config.json')
 const dotenv                                                               = require('dotenv')
-const {Token, Account, Lang}                                               = require('../utils')
+const {Token, Account, Lang, React}                                        = require('../utils')
 dotenv.config()
 
 module.exports = {
@@ -14,6 +14,12 @@ module.exports = {
     {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
+
+        // Checks
+        const account = await Account.address(interaction.user.id)
+        if (!await Account.active(account)) {
+            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), true)
+        }
 
         const balanceRows  = []
         const tippedRows   = []
