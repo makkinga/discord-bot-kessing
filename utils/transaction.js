@@ -171,7 +171,7 @@ exports.split = async function (interaction, members, from, to, token, amount, r
         const holder = accountHolders.find(h => h.user === m.id)
 
         if (holder.show_name) {
-            memberList.push(`@${m.username.replace('||', '\|\|')}#${m.discriminator}`)
+            memberList.push(`@${m.username.replace('||', '|\u200b|')}#${m.discriminator}`)
         } else {
             hiddenMembers++
         }
@@ -181,7 +181,7 @@ exports.split = async function (interaction, members, from, to, token, amount, r
         embed.setFields({name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: `${memberList.join(', ')}${(hiddenMembers > 0 ? ` +${hiddenMembers} others` : '')}`},)
     }
     const fields = [
-        {name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: members.map(m => `@${m.username.replace('||', '\|\|')}#${m.discriminator}`).join('\n ')},
+        {name: Lang.trans(interaction, 'rain.users_tipped', {amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`}), value: members.map(m => `@${m.username.replace('||', '|\u200b|')}#${m.discriminator}`).join('\n ')},
         {name: Lang.trans(interaction, 'rain.total_tipped'), value: `${amount} ${artifact.name}`, inline: true},
         {name: Lang.trans(interaction, 'rain.channel'), value: `#${interaction.channel.name}`, inline: true}
     ]
