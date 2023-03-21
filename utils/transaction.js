@@ -93,10 +93,15 @@ exports.make = async function (interaction, member, from, to, token, amount) {
 
         await transaction.wait(1)
     } catch (error) {
-        await Log.error(interaction, 2, error)
-        await Log.error(interaction, 2, await getRevertReason(error.transaction.hash))
+        if (error.code === 'TRANSACTION_REPLACED') {
+            await DB.nonceCount.truncate()
+            await this.make(interaction, member, from, to, token, amount)
+        } else {
+            await Log.error(interaction, 2, error)
+            await Log.error(interaction, 2, await getRevertReason(error.transaction.hash))
 
-        return await React.error(interaction, 2, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
+            return await React.error(interaction, 2, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
+        }
     }
 
     const toNotification = new EmbedBuilder()
@@ -150,10 +155,15 @@ exports.split = async function (interaction, members, from, to, token, amount, r
 
         await transaction.wait(1)
     } catch (error) {
-        await Log.error(interaction, 3, error)
-        await Log.error(interaction, 3, await getRevertReason(error.transaction.hash))
+        if (error.code === 'TRANSACTION_REPLACED') {
+            await DB.nonceCount.truncate()
+            await this.split(interaction, members, from, to, token, amount, role)
+        } else {
+            await Log.error(interaction, 3, error)
+            await Log.error(interaction, 3, await getRevertReason(error.transaction.hash))
 
-        return await React.error(interaction, 3, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
+            return await React.error(interaction, 3, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
+        }
     }
 
     const rain           = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
@@ -239,10 +249,15 @@ exports.burn = async function (interaction, from, token, amount) {
 
         await transaction.wait(1)
     } catch (error) {
-        await Log.error(interaction, 4, error)
-        await Log.error(interaction, 4, await getRevertReason(error.transaction.hash))
+        if (error.code === 'TRANSACTION_REPLACED') {
+            await DB.nonceCount.truncate()
+            await this.burn(interaction, from, token, amount)
+        } else {
+            await Log.error(interaction, 4, error)
+            await Log.error(interaction, 4, await getRevertReason(error.transaction.hash))
 
-        return await React.error(interaction, 4, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
+            return await React.error(interaction, 4, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
+        }
     }
 
     const embed = new EmbedBuilder()
