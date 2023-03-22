@@ -121,6 +121,10 @@
         "title": "Settings have been updated",
         "description": "Display name is now :enabled"
     },
+    "enable_dms": {
+        "title": "Settings have been updated",
+        "description": "Receive DM is now :enabled"
+    },
     "error": {
         "title": {
             "bug_report": "Report a bug",

@@ -1,6 +1,5 @@
-const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder} = require('discord.js')
-const CryptoJS                                                             = require('crypto-js')
-const {Lang, Account, React}                                               = require('../utils')
+const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
+const {Lang, Account, React}              = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()

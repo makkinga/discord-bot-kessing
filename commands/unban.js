@@ -10,7 +10,7 @@ module.exports = {
     async execute(interaction)
     {
         // Defer reply
-        await interaction.deferReply({ephemeral: true})
+        await interaction.deferReply({ephemeral: false})
 
         // Options
         const member        = interaction.options.getUser('member')

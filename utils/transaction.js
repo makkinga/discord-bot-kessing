@@ -224,6 +224,19 @@ exports.split = async function (interaction, members, from, to, token, amount, r
 
     await interaction.editReply({embeds: [embed]})
 
+    for (const m of members) {
+        const holder = accountHolders.find(h => h.user === m.id)
+
+        if (holder.send_dm) {
+            const toNotification = new EmbedBuilder()
+                .setTitle(`You caught the ${rain.toLowerCase()}!`)
+                .setDescription(`@${interaction.user.username} tipped you ${parseFloat(amount / members.length).toFixed(4)} ${artifact.name} in <#${interaction.channel.id}>`)
+                .setTimestamp()
+
+            await m.send({embeds: [toNotification]})
+        }
+    }
+
     console.timeEnd(`transaction #${nonce}`)
 }
 
