@@ -107,17 +107,19 @@ exports.make = async function (interaction, member, from, to, token, amount) {
         }
     }
 
-    const toNotification = new EmbedBuilder()
-        .setTitle(`You got tipped!`)
-        .setDescription(`@${interaction.user.username} tipped you ${amount} ${artifact.name} in <#${interaction.channel.id}>`)
-        .setTimestamp()
+    if (interaction.commandName !== 'gift') {
+        const toNotification = new EmbedBuilder()
+            .setTitle(`You got tipped!`)
+            .setDescription(`@${interaction.user.username} tipped you ${amount} ${artifact.name} in <#${interaction.channel.id}>`)
+            .setTimestamp()
 
-    const embed = new EmbedBuilder()
-        .setAuthor({name: `@${interaction.user.username} tipped @${member.username} ${amount} ${artifact.name}`, iconURL: config.token_icons[artifact.name]})
+        const embed = new EmbedBuilder()
+            .setAuthor({name: `@${interaction.user.username} tipped @${member.username} ${amount} ${artifact.name}`, iconURL: config.token_icons[artifact.name]})
 
-    await interaction.editReply({embeds: [embed]})
+        await interaction.editReply({embeds: [embed]})
 
-    await member.send({embeds: [toNotification]})
+        await member.send({embeds: [toNotification]})
+    }
 
     console.timeEnd(`transaction #${nonce}`)
 }
