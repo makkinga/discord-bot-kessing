@@ -31,14 +31,17 @@ client.on('interactionCreate', async interaction => {
     } catch (error) {
         await Log.error(interaction, 1, error)
 
-        return await React.error(interaction, 1, Lang.trans(interaction, 'error.title.general'), Lang.trans(interaction, 'error.description.error_occurred'), true)
+        return await React.error(interaction, Lang.trans(interaction, 'error.title.general'), Lang.trans(interaction, 'error.description.error_occurred'), {
+            code: 1,
+            edit: true
+        })
     }
 })
 
 // Login to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN).then(async function () {
     console.log('Connected as:')
-    console.log(`${client.user.username} #${client.user.discriminator}`)
+    console.log(`${client.user.username}#${client.user.discriminator}`)
 
     await DB.syncDatabase()
     console.log('Database synced')

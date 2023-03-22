@@ -18,7 +18,9 @@ module.exports = {
         // Checks
         const account = await Account.address(interaction.user.id)
         if (!await Account.active(account)) {
-            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), true)
+            return await React.error(interaction, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), {
+                edit: true
+            })
         }
 
         const balanceRows  = []

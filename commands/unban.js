@@ -19,7 +19,9 @@ module.exports = {
 
         // Checks
         if (!await Account.banned(address)) {
-            return await React.error(interaction, null, Lang.trans(interaction, 'unban.title.not_banned'), Lang.trans(interaction, 'unban.description.not_banned', {member: memberMention}), true)
+            return await React.error(interaction, Lang.trans(interaction, 'unban.title.not_banned'), Lang.trans(interaction, 'unban.description.not_banned', {member: memberMention}), {
+                edit: true
+            })
         }
 
         // Ban member

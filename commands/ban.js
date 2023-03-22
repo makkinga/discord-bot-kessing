@@ -20,10 +20,14 @@ module.exports = {
         // Checks
         if (!await Account.canBeTipped(address)) {
             if (await Account.banned(address)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'ban.title.already_banned'), Lang.trans(interaction, 'ban.description.already_banned', {member: memberMention}), true)
+                return await React.error(interaction, Lang.trans(interaction, 'ban.title.already_banned'), Lang.trans(interaction, 'ban.description.already_banned', {member: memberMention}), {
+                    edit: true
+                })
             }
 
-            return await React.error(interaction, null, Lang.trans(interaction, 'ban.title.no_active_account'), Lang.trans(interaction, 'ban.description.no_active_account', {member: memberMention}), true)
+            return await React.error(interaction, Lang.trans(interaction, 'ban.title.no_active_account'), Lang.trans(interaction, 'ban.description.no_active_account', {member: memberMention}), {
+                edit: true
+            })
         }
 
         // Ban member

@@ -8,10 +8,10 @@ const Lang           = require('./lang')
  * @param code
  * @param title
  * @param description
- * @param edit
+ * @param options
  * @return {Promise<void>}
  */
-exports.error = async function (interaction, code, title, description = null, edit = false) {
+exports.error = async function (interaction, title, description = null, options = {}) {
     const reference = `${interaction.user.id.slice(-3)}-${interaction.channelId.slice(-3)}-${interaction.id.slice(-3)}`
 
     const embed = new EmbedBuilder()
@@ -21,18 +21,20 @@ exports.error = async function (interaction, code, title, description = null, ed
         embed.setDescription(description)
     }
 
-    embed.addFields(
-        {name: Lang.trans(interaction, 'error.title.bug_report'), value: Lang.trans(interaction, 'error.description.bug_report', {server: 'https://discord.gg/2CUcKRzCUj'}), inline: false},
-    )
+    if (options.report) {
+        embed.addFields(
+            {name: Lang.trans(interaction, 'error.title.bug_report'), value: Lang.trans(interaction, 'error.description.bug_report', {server: 'https://discord.gg/2CUcKRzCUj'}), inline: false},
+        )
+    }
 
-    if (code) {
+    if (options.code) {
         embed.addFields(
             {name: `Error code`, value: `\`E${code.toString().padStart(3, '0')}\``, inline: true},
             {name: `Reference`, value: `\`${reference}\``, inline: true}
         )
     }
 
-    if (edit) {
+    if (options.edit) {
         await interaction.editReply({embeds: [embed], ephemeral: true})
     } else {
         await interaction.reply({embeds: [embed], ephemeral: true})

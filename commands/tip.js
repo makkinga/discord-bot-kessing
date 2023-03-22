@@ -20,45 +20,59 @@ module.exports = {
         await interaction.deferReply({ephemeral: false})
 
         // Options
-        const amount   = interaction.options.getNumber('amount')
-        const member   = interaction.options.getUser('member')
-        const token    = interaction.options.getString('token') ?? 'CRYSTAL'
-        const artifact = await Token.artifact(token)
+        const amount       = interaction.options.getNumber('amount')
+        const member       = interaction.options.getUser('member')
+        const token        = interaction.options.getString('token') ?? 'CRYSTAL'
+        const artifact     = await Token.artifact(token)
         const tokenAddress = (token === 'JEWEL') ? artifact.bank_address : artifact.address
-        const from     = await Account.address(interaction.user.id)
-        const to       = await Account.address(member.id)
+        const from         = await Account.address(interaction.user.id)
+        const to           = await Account.address(member.id)
 
         // Checks
         if (!await Account.canTip(from)) {
             if (!await Account.active(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), {
+                    edit: true
+                })
             }
 
             if (!await Account.verified(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.unverified'), Lang.trans(interaction, 'error.description.unverified'), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.unverified'), Lang.trans(interaction, 'error.description.unverified'), {
+                    edit: true
+                })
             }
 
             if (await Account.banned(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned'), {accountDashboard: process.env.DASHBOARD_URL}, true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned'), {accountDashboard: process.env.DASHBOARD_URL}, {
+                    edit: true
+                })
             }
         }
 
         if (!await Account.canBeTipped(to)) {
             if (!await Account.active(to)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.unable_to_tip'), Lang.trans(interaction, 'error.description.unable_to_tip.no_account', {username: member.username}), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.unable_to_tip'), Lang.trans(interaction, 'error.description.unable_to_tip.no_account', {username: member.username}), {
+                    edit: true
+                })
             }
 
             if (!await Account.verified(to)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.unable_to_tip'), Lang.trans(interaction, 'error.description.unable_to_tip.unverified', {username: member.username}), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.unable_to_tip'), Lang.trans(interaction, 'error.description.unable_to_tip.unverified', {username: member.username}), {
+                    edit: true
+                })
             }
 
             if (await Account.banned(to)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.unable_to_tip'), Lang.trans(interaction, 'error.description.unable_to_tip.banned', {username: member.username}), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.unable_to_tip'), Lang.trans(interaction, 'error.description.unable_to_tip.banned', {username: member.username}), {
+                    edit: true
+                })
             }
         }
 
         if (!await Account.hasBalance(from, amount, tokenAddress)) {
-            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.insufficient_funds'), true)
+            return await React.error(interaction, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.insufficient_funds'), {
+                edit: true
+            })
         }
 
         // Make transaction

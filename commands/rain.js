@@ -29,20 +29,28 @@ module.exports = {
         // Checks
         if (!await Account.canTip(from)) {
             if (!await Account.active(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), {
+                    edit: true
+                })
             }
 
             if (!await Account.verified(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.unverified'), Lang.trans(interaction, 'error.description.unverified'), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.unverified'), Lang.trans(interaction, 'error.description.unverified'), {
+                    edit: true
+                })
             }
 
             if (await Account.banned(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned'), {accountDashboard: process.env.DASHBOARD_URL}, true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned'), {accountDashboard: process.env.DASHBOARD_URL}, {
+                    edit: true
+                })
             }
         }
 
         if (!await Account.hasBalance(from, amount, tokenAddress)) {
-            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.insufficient_funds'), true)
+            return await React.error(interaction, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.insufficient_funds'), {
+                edit: true
+            })
         }
 
         // Get last 10 active members

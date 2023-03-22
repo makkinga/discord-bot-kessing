@@ -29,7 +29,9 @@ module.exports = {
         })
 
         if (cooldown) {
-            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.not_allowed'), `${Lang.trans(interaction, 'gift.on_cooldown')} ${moment.unix(cooldown.timestamp).fromNow(true)}`, true)
+            return await React.error(interaction, Lang.trans(interaction, 'error.title.not_allowed'), `${Lang.trans(interaction, 'gift.on_cooldown')} ${moment.unix(cooldown.timestamp).fromNow(true)}`, {
+                edit: true
+            })
         } else {
             await DB.giftCooldown.destroy({
                 where: {
@@ -49,25 +51,35 @@ module.exports = {
         // Checks
         if (!await Account.canTip(from)) {
             if (!await Account.active(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.no_account'), Lang.trans(interaction, 'error.description.no_account'), {
+                    edit: true
+                })
             }
 
             if (!await Account.verified(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.unverified'), Lang.trans(interaction, 'error.description.unverified'), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.unverified'), Lang.trans(interaction, 'error.description.unverified'), {
+                    edit: true
+                })
             }
 
             if (await Account.banned(from)) {
-                return await React.error(interaction, null, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned', {accountDashboard: process.env.DASHBOARD_URL}), true)
+                return await React.error(interaction, Lang.trans(interaction, 'error.title.banned'), Lang.trans(interaction, 'error.description.banned', {accountDashboard: process.env.DASHBOARD_URL}), {
+                    edit: true
+                })
             }
         }
 
         if (!await Account.hasBalance(from, amount, tokenAddress)) {
-            return await React.error(interaction, null, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.insufficient_funds'), true)
+            return await React.error(interaction, Lang.trans(interaction, 'error.title.insufficient_funds'), Lang.trans(interaction, 'error.description.insufficient_funds'), {
+                edit: true
+            })
         }
 
         const hasPendingGift = await DB.pendingGifts.count({where: {author: interaction.user.id}}) > 0
         if (hasPendingGift) {
-            return await React.error(interaction, null, Lang.trans(interaction, 'gift.pending_title'), Lang.trans(interaction, 'gift.pending_description'), true)
+            return await React.error(interaction, Lang.trans(interaction, 'gift.pending_title'), Lang.trans(interaction, 'gift.pending_description'), {
+                edit: true
+            })
         }
 
         // Send embed and button

@@ -25,7 +25,10 @@ module.exports = {
             )
         } catch (error) {
             await Log.error(interaction, 5, error)
-            return await React.error(interaction, 5, Lang.trans(interaction, 'error.title.error_occurred'), null, true)
+            return await React.error(interaction, Lang.trans(interaction, 'error.title.error_occurred'), null, {
+                code: 5,
+                edit: true
+            })
         }
 
         // Respond
