@@ -182,7 +182,7 @@ exports.split = async function (interaction, members, from, to, token, amount, r
         where     : {
             user: members.map(m => m.id)
         },
-        attributes: ['user', 'show_name']
+        attributes: ['user', 'show_name', 'send_dm']
     })
 
     for (const m of members) {
