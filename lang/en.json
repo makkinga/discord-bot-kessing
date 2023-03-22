@@ -24,6 +24,10 @@
     },
     "create": {
         "title": "Create your tipping account",
+        "has_account": {
+            "title": "You already have an account",
+            "description": "An account was already created for :username. Make sure your account dashboard is connected to `:address`"
+        },
         "description": "You can create your tipping account using one of the buttons below.",
         "button_mobile": "Create my account (MetaMask)",
         "button_desktop": "Create my account (Browser)"
