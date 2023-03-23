@@ -21,23 +21,25 @@ const DB                                              = require('./db')
  * @returns {Promise<void>}
  */
 exports.getNonce = async function (provider, signer) {
-    let nonce
-    nonce = await DB.nonceCount.findOne({where: {name: 'nonce'}})
+    return await provider.getTransactionCount(signer.address, 'pending')
 
-    if (!nonce) {
-        nonce = await provider.getTransactionCount(signer.address)
-
-        await DB.nonceCount.create({
-            name: 'nonce',
-            nonce
-        })
-
-        return nonce.nonce
-    }
-
-    await DB.nonceCount.increment({nonce: 1}, {where: {name: 'nonce'}})
-
-    return nonce.nonce + 1
+    // let nonce
+    // nonce = await DB.nonceCount.findOne({where: {name: 'nonce'}})
+    //
+    // if (!nonce) {
+    //     nonce = await provider.getTransactionCount(signer.address)
+    //
+    //     await DB.nonceCount.create({
+    //         name: 'nonce',
+    //         nonce
+    //     })
+    //
+    //     return nonce.nonce
+    // }
+    //
+    // await DB.nonceCount.increment({nonce: 1}, {where: {name: 'nonce'}})
+    //
+    // return nonce.nonce + 1
 }
 
 /**
@@ -93,18 +95,18 @@ exports.make = async function (interaction, member, from, to, token, amount) {
 
         await transaction.wait(1)
     } catch (error) {
-        if (error.code === 'TRANSACTION_REPLACED') {
-            await DB.nonceCount.truncate()
-            await this.make(interaction, member, from, to, token, amount)
-        } else {
-            await Log.error(interaction, 2, error)
-            await Log.error(interaction, 2, await getRevertReason(error.transaction.hash))
+        // if (error.code === 'TRANSACTION_REPLACED') {
+        //     await DB.nonceCount.truncate()
+        //     await this.make(interaction, member, from, to, token, amount)
+        // } else {
+        await Log.error(interaction, 2, error)
+        await Log.error(interaction, 2, await getRevertReason(error.transaction.hash))
 
-            return await React.error(interaction, Lang.trans(interaction, 'error.title.error_occurred'), null, {
-                code: 2,
-                edit: true
-            })
-        }
+        return await React.error(interaction, Lang.trans(interaction, 'error.title.error_occurred'), null, {
+            code: 2,
+            edit: true
+        })
+        // }
     }
 
     if (interaction.commandName !== 'gift') {
@@ -160,18 +162,18 @@ exports.split = async function (interaction, members, from, to, token, amount, r
 
         await transaction.wait(1)
     } catch (error) {
-        if (error.code === 'TRANSACTION_REPLACED') {
-            await DB.nonceCount.truncate()
-            await this.split(interaction, members, from, to, token, amount, role)
-        } else {
-            await Log.error(interaction, 3, error)
-            await Log.error(interaction, 3, await getRevertReason(error.transaction.hash))
+        // if (error.code === 'TRANSACTION_REPLACED') {
+        //     await DB.nonceCount.truncate()
+        //     await this.split(interaction, members, from, to, token, amount, role)
+        // } else {
+        await Log.error(interaction, 3, error)
+        await Log.error(interaction, 3, await getRevertReason(error.transaction.hash))
 
-            return await React.error(interaction, Lang.trans(interaction, 'error.title.error_occurred'), null, {
-                code: 3,
-                edit: true
-            })
-        }
+        return await React.error(interaction, Lang.trans(interaction, 'error.title.error_occurred'), null, {
+            code: 3,
+            edit: true
+        })
+        // }
     }
 
     const rain           = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
@@ -270,18 +272,18 @@ exports.burn = async function (interaction, from, token, amount) {
 
         await transaction.wait(1)
     } catch (error) {
-        if (error.code === 'TRANSACTION_REPLACED') {
-            await DB.nonceCount.truncate()
-            await this.burn(interaction, from, token, amount)
-        } else {
-            await Log.error(interaction, 4, error)
-            await Log.error(interaction, 4, await getRevertReason(error.transaction.hash))
+        // if (error.code === 'TRANSACTION_REPLACED') {
+        //     await DB.nonceCount.truncate()
+        //     await this.burn(interaction, from, token, amount)
+        // } else {
+        await Log.error(interaction, 4, error)
+        await Log.error(interaction, 4, await getRevertReason(error.transaction.hash))
 
-            return await React.error(interaction, Lang.trans(interaction, 'error.title.error_occurred'), null, {
-                code: 4,
-                edit: true
-            })
-        }
+        return await React.error(interaction, Lang.trans(interaction, 'error.title.error_occurred'), null, {
+            code: 4,
+            edit: true
+        })
+        // }
     }
 
     const embed = new EmbedBuilder()
