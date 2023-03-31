@@ -48,7 +48,7 @@ app.post('/verify-account', async function (request, response) {
         const id      = await CryptoJS.AES.decrypt(request.body['id'].replaceAll(':p:', '+').replaceAll(':s:', '/'), process.env.CREATE_ACCOUNT_CYPHER_SECRET).toString(CryptoJS.enc.Utf8)
         const address = await request.body['address']
 
-        console.log(`Verification request for: ID: ${id}, Address: ${address}`)
+        console.log(`Verification request for: ID: ${id}, Address: ${address}, Cypher: ${request.body['id']}`)
 
         if (await Account.verified(address)) {
             response.writeHead(403, {'Content-Type': 'application/json'})
@@ -58,19 +58,25 @@ app.post('/verify-account', async function (request, response) {
             return
         }
 
-        await Account.verify(address, id)
+        if (id !== '') {
+            await Account.verify(address, id)
 
-        await DB.accountHolders.create({
-            user     : id,
-            address  : address,
-            role     : false,
-            show_name: true,
-            send_dm  : false
-        })
+            await DB.accountHolders.create({
+                user     : id,
+                address  : address,
+                role     : false,
+                show_name: true,
+                send_dm  : false
+            })
 
-        response.writeHead(200, {'Content-Type': 'application/json'})
-        response.write(JSON.stringify({success: true, id: id}))
-        response.end()
+            response.writeHead(200, {'Content-Type': 'application/json'})
+            response.write(JSON.stringify({success: true, id: id}))
+            response.end()
+        } else {
+            response.writeHead(400, {'Content-Type': 'application/json'})
+            response.write(JSON.stringify({success: false, message: `Invalid id "${request.body['id']}"`}))
+            response.end()
+        }
     } catch (error) {
         console.log(error)
 

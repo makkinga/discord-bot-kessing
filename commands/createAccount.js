@@ -29,7 +29,7 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'create.title'))
             .setDescription(Lang.trans(interaction, 'create.description'))
 
-        const queryString = `?id=${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`
+        const queryString = `/create/${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`
 
         const mobileButton = new ActionRowBuilder()
             .addComponents(
