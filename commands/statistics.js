@@ -30,15 +30,15 @@ module.exports = {
         const jadeInfo    = await Token.jadeInfo()
         const tokens      = {
             'JEWEL'  : {
-                usd : parseFloat(jewelInfo.priceUsd * 1_000).toFixed(3),
+                usd : parseFloat(jewelInfo.priceUsd).toFixed(3),
                 data: jewelInfo
             },
             'CRYSTAL': {
-                usd : parseFloat(crystalInfo.priceUsd * 1_000).toFixed(3),
+                usd : parseFloat(crystalInfo.priceUsd).toFixed(3),
                 data: crystalInfo
             },
             'JADE'   : {
-                usd : parseFloat(jadeInfo.priceUsd * 1_000).toFixed(3),
+                usd : parseFloat(jadeInfo.priceUsd).toFixed(3),
                 data: jadeInfo
             }
         }
@@ -52,15 +52,15 @@ module.exports = {
 
                 tokenTableRows.push(
                     ['.', '.', Lang.trans(interaction, 'statistics.1h'), '.', Lang.trans(interaction, 'statistics.24h')],
-                    [Lang.trans(interaction, 'statistics.price_change'), '|', `${parseFloat(token.data.priceChange.h1 * 1_000).toFixed(2)}%`, '|', `${parseFloat(token.data.priceChange.h24 * 1_000).toFixed(2)}%`],
-                    [Lang.trans(interaction, 'statistics.buys'), '|', token.data.txns.h1.buys * 1_000, '|', token.data.txns.h24.buys * 1_000],
-                    [Lang.trans(interaction, 'statistics.sells'), '|', token.data.txns.h1.sells * 1_000, '|', token.data.txns.h24.sells * 1_000],
+                    [Lang.trans(interaction, 'statistics.price_change'), '|', `${parseFloat(token.data.priceChange.h1).toFixed(2)}%`, '|', `${parseFloat(token.data.priceChange.h24).toFixed(2)}%`],
+                    [Lang.trans(interaction, 'statistics.buys'), '|', token.data.txns.h1.buys, '|', token.data.txns.h24.buys],
+                    [Lang.trans(interaction, 'statistics.sells'), '|', token.data.txns.h1.sells, '|', token.data.txns.h24.sells],
                     [
                         Lang.trans(interaction, 'statistics.volume'),
                         '|',
-                        `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h1 * 1_000).toFixed(0))}`,
+                        `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h1).toFixed(0))}`,
                         '|',
-                        `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h24 * 1_000).toFixed(0))}`
+                        `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h24).toFixed(0))}`
                     ],
                 )
 

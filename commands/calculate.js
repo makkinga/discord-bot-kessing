@@ -51,15 +51,15 @@ module.exports = {
         switch (token) {
             case 'JEWEL' :
                 const jewelInfo = await Token.jewelInfo()
-                value = parseFloat(jewelInfo.priceUsd * 1_000).toFixed(2)
+                value           = parseFloat(jewelInfo.priceUsd).toFixed(2)
                 break
             case 'CRYSTAL' :
                 const crystalInfo = await Token.crystalInfo()
-                value = parseFloat(crystalInfo.priceUsd * 1_000).toFixed(2)
+                value             = parseFloat(crystalInfo.priceUsd).toFixed(2)
                 break
             case 'JADE' :
                 const jadeInfo = await Token.jadeInfo()
-                value = parseFloat(jadeInfo.priceUsd * 1_000).toFixed(2)
+                value          = parseFloat(jadeInfo.priceUsd).toFixed(2)
                 break
         }
 

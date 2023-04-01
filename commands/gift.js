@@ -29,7 +29,7 @@ module.exports = {
         })
 
         if (cooldown) {
-            return await React.error(interaction, Lang.trans(interaction, 'error.title.not_allowed'), 'You have been banned', {
+            return await React.error(interaction, Lang.trans(interaction, 'error.title.not_allowed'), `${Lang.trans(interaction, 'gift.on_cooldown')} ${moment.unix(cooldown.timestamp).fromNow(true)}`, {
                 edit: true
             })
         } else {
@@ -77,7 +77,7 @@ module.exports = {
 
         const hasPendingGift = await DB.pendingGifts.count({where: {author: interaction.user.id}}) > 0
         if (hasPendingGift) {
-            return await React.error(interaction, Lang.trans(interaction, 'gift.pending_title'), 'You have been banned', {
+            return await React.error(interaction, Lang.trans(interaction, 'gift.pending_title'), Lang.trans(interaction, 'gift.pending_description'), {
                 edit: true
             })
         }
@@ -85,7 +85,7 @@ module.exports = {
         // Send embed and button
         const timestamp = Date.now()
         const embed     = new EmbedBuilder()
-            .setTitle(Lang.trans(interaction, 'gift.title', {user: interaction.user.username, amount: amount * 1_000, symbol: artifact.name}))
+            .setTitle(Lang.trans(interaction, 'gift.title', {user: interaction.user.username, amount: amount, symbol: artifact.name}))
             .setDescription(Lang.trans(interaction, 'gift.description'))
 
         const button = new ActionRowBuilder()
