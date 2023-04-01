@@ -37,10 +37,10 @@ module.exports = {
             let tipped   = await Account.tipped(userAddress, contractAddress)
             let received = await Account.received(userAddress, contractAddress)
             let burned   = await Account.burned(userAddress, contractAddress)
-            balanceRows.push([balance, token])
-            tippedRows.push([tipped, token])
-            receivedRows.push([received, token])
-            burnedRows.push([burned, token])
+            balanceRows.push([balance * 1_000, token])
+            tippedRows.push([tipped * 1_000, token])
+            receivedRows.push([received * 1_000, token])
+            burnedRows.push([burned * 1_000, token])
         }
 
         const toNotification = new EmbedBuilder()

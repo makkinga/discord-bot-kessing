@@ -109,6 +109,8 @@ exports.make = async function (interaction, member, from, to, token, amount) {
         // }
     }
 
+    amount = amount * 1_000
+
     if (interaction.commandName !== 'gift') {
         const toNotification = new EmbedBuilder()
             .setTitle(`You got tipped!`)
@@ -175,6 +177,8 @@ exports.split = async function (interaction, members, from, to, token, amount, r
         })
         // }
     }
+
+    amount = amount * 1_000
 
     const rain           = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
     const rained         = artifact.name === 'CRYSTAL' ? 'snowed' : 'rained'
@@ -285,6 +289,8 @@ exports.burn = async function (interaction, from, token, amount) {
         })
         // }
     }
+
+    amount = amount * 1_000
 
     const embed = new EmbedBuilder()
         .setAuthor({name: `@${interaction.user.username} burned ${amount} ${artifact.name} 💀`, iconURL: config.token_icons[artifact.name]})
