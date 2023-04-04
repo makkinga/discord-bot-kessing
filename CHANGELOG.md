@@ -29,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
-- Arguably the worst april fools prank ever (364f7da8)
+- Arguably the worst april fools prank ever (7aef43e5)
 
 ## [3.1.9] 10-03-2023
 
