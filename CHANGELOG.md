@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.6] 31-03-2023
+
+### Added
+
+- MetaMask deeplink for mobile users (32bcc069)
+- Added options object to `React.error()` for better error logging in the future (aeb7de06)
+- Added `/account-address` command to retrieve the address linked to your Discord account (bb96ccb0) (3.2.0)
+- Added `/enable-dms` command so people can opt-in to be notified when they catch rain/snow (19500b0b) (3.3.0)
+- Added support for the updated account dashboard (78e68986, 67d7bcbe)
+- Arguably the best april fools prank ever (364f7da8)
+
+### Fixed
+
+- Fixed the issue where multiple usernames containing `||` would be parsed as spoiler by Discord (a63c6de5)
+- Fixed a bug that broke the verification process (7a61133d)
+- Gift embeds would change to "@someUser has tipped X to @otherUser" this is now removed (2a5a4df6)
+- Hopefully fixed the duplicate nonce issue (a1db3210)
+
+### Changed
+
+- Disabled the `/balance` command for non account holders (d1af46e9)
+- To avoid confusion the `/create-account` won't work for account holders anymore (972a03de)
+
+### Removed
+
+- Arguably the worst april fools prank ever (364f7da8)
+
 ## [3.1.9] 10-03-2023
 
 ### Added
