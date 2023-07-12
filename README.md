@@ -39,6 +39,18 @@ In general, I follow the "fork-and-pull" Git workflow.
 
 > TIP: For "small" changes, prefix the repo URL with `vscode.dev/`
 
+## Updating
+
+```bash
+git pull && docker build . -t kessing:latest && docker compose down && docker compose up -d
+```
+
+## Running
+
+```bash
+  docker exec -it kessing /bin/bash
+```
+
 ## License
 
 > IMPORTANT: I do not offer any support whatsoever to setting up or modifying this bot

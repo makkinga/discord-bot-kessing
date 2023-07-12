@@ -21,7 +21,7 @@ module.exports = {
         const {docAnswer, devAnswer} = await this.getAnswer(interaction, question)
 
         // Reply with error if no answers were found
-        if (!docAnswer.data.length || !devAnswer.data.length) {
+        if (Object.keys(docAnswer.data).length === 0 && docAnswer.data.constructor === Object && Object.keys(devAnswer.data).length === 0 && devAnswer.data.constructor === Object) {
             return await interaction.editReply({embeds: [new EmbedBuilder().setTitle('No answers found').setDescription('No answers were found for your question. Please try again.').setColor('#ff0000').toJSON()]})
         }
 
@@ -50,7 +50,7 @@ module.exports = {
             const {docAnswer, devAnswer} = await this.getAnswer(i, followup)
 
             // Reply with error if no answers were found
-            if (!docAnswer.data.length || !devAnswer.data.length) {
+            if (Object.keys(docAnswer.data).length === 0 && docAnswer.data.constructor === Object && Object.keys(devAnswer.data).length === 0 && devAnswer.data.constructor === Object) {
                 return await i.editReply({embeds: [new EmbedBuilder().setTitle('No answers found').setDescription('No answers were found for your question. Please try again.').setColor('#ff0000').toJSON()]})
             }
 
@@ -112,34 +112,54 @@ module.exports = {
             .setDescription('Please note that this AI generated answer may be incorrect or outdated. Always verify any information before making financial decisions.')
 
         // Create the doc answer embed
-        const docAnswerEmbed = new EmbedBuilder()
-            .setTitle(question)
-            .setDescription(docAnswer.data.answer.text.slice(0, 1521))
-            .setFooter({text: 'Source: docs.defikingdoms.com'})
+        let docAnswerEmbed
+        if (Object.keys(docAnswer.data).length === 0 && docAnswer.data.constructor === Object) {
+            docAnswerEmbed = new EmbedBuilder()
+                .setTitle(question)
+                .setDescription('No answer found in the documentation.')
+                .setFooter({text: 'Source: docs.defikingdoms.com'})
+        } else {
+            docAnswerEmbed = new EmbedBuilder()
+                .setTitle(question)
+                .setDescription(docAnswer.data.answer.text.slice(0, 1521))
+                .setFooter({text: 'Source: docs.defikingdoms.com'})
+        }
 
         // Create the dev answer embed
-        const devAnswerEmbed = new EmbedBuilder()
-            .setTitle(question)
-            .setDescription(devAnswer.data.answer.text.slice(0, 1521))
-            .setFooter({text: 'Source: devs.defikingdoms.com'})
+        let devAnswerEmbed
+        if (Object.keys(devAnswer.data).length === 0 && devAnswer.data.constructor === Object) {
+            devAnswerEmbed = new EmbedBuilder()
+                .setTitle(question)
+                .setDescription('No answer found in the devs documentation.')
+                .setFooter({text: 'Source: devs.defikingdoms.com'})
+        } else {
+            devAnswerEmbed = new EmbedBuilder()
+                .setTitle(question)
+                .setDescription(devAnswer.data.answer.text.slice(0, 1521))
+                .setFooter({text: 'Source: devs.defikingdoms.com'})
+        }
 
         // Create a button for the first 3 followup questions
         const FollowupQuestions = new ActionRowBuilder()
-        for (const followup of docAnswer.data.answer.followupQuestions) {
-            const button = new ButtonBuilder()
-                .setLabel(followup)
-                .setStyle('Primary')
-                .setCustomId(`followup:${followup}`)
+        if (!docAnswer.data === {}) {
+            for (const followup of docAnswer.data.answer.followupQuestions) {
+                const button = new ButtonBuilder()
+                    .setLabel(followup)
+                    .setStyle('Primary')
+                    .setCustomId(`followup:${followup}`)
 
-            FollowupQuestions.addComponents(button)
+                FollowupQuestions.addComponents(button)
+            }
         }
-        for (const followup of devAnswer.data.answer.followupQuestions) {
-            const button = new ButtonBuilder()
-                .setLabel(followup)
-                .setStyle('Primary')
-                .setCustomId(`followup:${followup}`)
+        if (!devAnswer.data === {}) {
+            for (const followup of devAnswer.data.answer.followupQuestions) {
+                const button = new ButtonBuilder()
+                    .setLabel(followup)
+                    .setStyle('Primary')
+                    .setCustomId(`followup:${followup}`)
 
-            FollowupQuestions.addComponents(button)
+                FollowupQuestions.addComponents(button)
+            }
         }
 
         return {disclaimerEmbed, docAnswerEmbed, devAnswerEmbed, FollowupQuestions}
