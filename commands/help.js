@@ -1,175 +1,114 @@
-const {SlashCommandBuilder, ActionRowBuilder, StringSelectMenuBuilder, EmbedBuilder, ButtonBuilder} = require('discord.js')
-const {ComponentType}                                                                               = require('discord-api-types/v8')
-const axios                                                                                         = require('axios')
-const table                                                                                         = require('text-table')
-const config                                                                                        = require('../config.json')
-const {Lang}                                                                                        = require('../utils')
+const {SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder} = require('discord.js')
+const axios = require('axios')
+const {Lang} = require('../utils')
+const Log = require('../utils/log')
+const React = require('../utils/react')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('help')
-        .setDescription('Get help using the bot'),
+        .setDescription('Get help using Kessing')
+        .addStringOption(option => option.setName('question').setDescription('Ask Kessing your question').setRequired(true)),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
 
-        const content = await axios.get('https://api.gitbook.com/v1/spaces/SrNx1aAiTRCGjylKXiu1/content', {
-            headers: {Authorization: `Bearer ${process.env.GITBOOK_TOKEN}`}
-        })
+        // Options
+        const question = interaction.options.getString('question')
 
-        const pages = await content.data.pages.filter(page => page.slug === 'commands')[0].pages
+        // Get the answer
+        const answer = await this.getAnswer(interaction, question)
 
-        const options = []
-        for (const page of pages) {
-            options.push({
-                label: page.title,
-                value: page.id,
-            })
+        // Create reply
+        const {disclaimerEmbed, answerEmbed, FollowupQuestions} = await this.createReply(interaction, question, answer)
+
+        // Send the embed
+        if (FollowupQuestions.length) {
+            await interaction.editReply({embeds: [disclaimerEmbed, answerEmbed], components: [FollowupQuestions]})
+        } else {
+            await interaction.editReply({embeds: [disclaimerEmbed, answerEmbed]})
         }
 
-        const embed = new EmbedBuilder()
-            .setAuthor({name: Lang.trans(interaction, 'help.title'), iconURL: config.bot.icon})
-            .setDescription(Lang.trans(interaction, 'help.description'))
-            .setFields(
-                {name: Lang.trans(interaction, 'help.getting_started_title'), value: Lang.trans(interaction, 'help.getting_started_description', {bot: config.bot.name})},
-                {name: Lang.trans(interaction, 'help.bug_report_title'), value: Lang.trans(interaction, 'help.bug_report_description')}
-            )
-
-        const buttonsRow = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setLabel(Lang.trans(interaction, 'help.getting_started'))
-                    .setURL(`${process.env.GITBOOK_URL}getting-started`)
-                    .setStyle('Link')
-            )
-            .addComponents(
-                new ButtonBuilder()
-                    .setLabel(Lang.trans(interaction, 'help.commands'))
-                    .setURL(`${process.env.GITBOOK_URL}commands`)
-                    .setStyle('Link')
-            )
-            .addComponents(
-                new ButtonBuilder()
-                    .setLabel(Lang.trans(interaction, 'help.faq'))
-                    .setURL(`${process.env.GITBOOK_URL}faq`)
-                    .setStyle('Link')
-            )
-
-        const selectRow = new ActionRowBuilder()
-            .addComponents(
-                new StringSelectMenuBuilder()
-                    .setCustomId('command')
-                    .setPlaceholder(Lang.trans(interaction, 'help.select_command'))
-                    .addOptions(options)
-            )
-
-        const select    = await interaction.editReply({embeds: [embed], components: [buttonsRow, selectRow]})
-        const collector = select.createMessageComponentCollector({componentType: ComponentType.SelectMenu})
+        // Create a collector for followup questions
+        const filter = i => i.customId.startsWith('followup:') && i.user.id === interaction.user.id
+        const collector = interaction.channel.createMessageComponentCollector({filter})
 
         collector.on('collect', async i => {
-            const page = await axios.get(`https://api.gitbook.com/v1/spaces/SrNx1aAiTRCGjylKXiu1/content/page/${i.values[0]}`, {
-                headers: {Authorization: `Bearer gb_api_F4cK4Ej28o26dDiUjEsMt7Z9h48KlAKIKt8PTGof`}
-            })
+            // Defer reply
+            await i.deferReply({ephemeral: true})
 
-            const embeds = []
+            // Get the followup question
+            const followup = i.customId.split(':')[1]
 
-            embeds.push(new EmbedBuilder()
-                .setTitle(page.data.title)
-                .setDescription(page.data.description))
+            // Get the answer
+            const answer = await this.getAnswer(i, followup)
 
-            let nodeEmbed = null
-            let fields    = []
-            for (const node of page.data.document.nodes) {
-                switch (node.type) {
-                    case 'heading-2' :
-                        if (nodeEmbed !== null) {
-                            nodeEmbed.setFields(fields)
-                            embeds.push(nodeEmbed)
-                            nodeEmbed = null
-                            fields    = []
-                        }
+            // Create reply
+            const {answerEmbed, FollowupQuestions} = await this.createReply(i, followup, answer)
 
-                        nodeEmbed = new EmbedBuilder()
-                            .setTitle(node.nodes[0].leaves[0].text)
-                        break
-                    case 'table' :
-                        nodeEmbed = null
-                        break
-                    case 'paragraph' :
-                        let text = ''
-                        for (const subNode of node.nodes) {
-                            if (subNode.leaves) {
-                                for (const leaf of subNode.leaves) {
-                                    if (Object.entries(leaf.marks).length && leaf.marks[0].type === 'code') {
-                                        text += `\`${leaf.text}\``
-                                    } else {
-                                        text += leaf.text
-                                    }
-                                }
-                            }
-                            if (subNode.type === 'link') {
-                                text += subNode.nodes[0].leaves[0].text
-                            }
-                        }
-
-                        fields.push({
-                            name : '\u200b',
-                            value: text,
-                        })
-                        break
-                    case 'hint' :
-                        if (nodeEmbed !== null) {
-                            nodeEmbed.setFields(fields)
-                            embeds.push(nodeEmbed)
-                            nodeEmbed = null
-                        }
-
-                        const colors = {
-                            info   : {color: '#346DDB', icon: 'https://storage.gyd0x.nl/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/discord-hint/info.png'},
-                            warning: {color: '#B95E03', icon: 'https://storage.gyd0x.nl/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/discord-hint/warning.png'},
-                            danger : {color: '#D33E3D', icon: 'https://storage.gyd0x.nl/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/discord-hint/danger.png'},
-                            success: {color: '#278847', icon: 'https://storage.gyd0x.nl/ed2319ff-1320-4572-a9c4-278c4d80b634-bucket/dfk/discord-hint/success.png'},
-                        }
-
-                        nodeEmbed = new EmbedBuilder()
-                            .setAuthor({name: '\u200b', iconURL: colors[node.data.style].icon})
-                            .setColor(colors[node.data.style].color)
-
-                        const hintFields = []
-                        for (const subNode of node.nodes) {
-                            hintFields.push({
-                                name : '\u200b',
-                                value: subNode.nodes[0].leaves[0].text,
-                            })
-                        }
-
-                        nodeEmbed.setFields(hintFields)
-                        embeds.push(nodeEmbed)
-                        nodeEmbed = null
-                        break
-                }
+            // Send the embed
+            if (FollowupQuestions.length) {
+                await i.editReply({embeds: [answerEmbed], components: [FollowupQuestions]})
+            } else {
+                await i.editReply({embeds: [answerEmbed]})
             }
-
-            if (nodeEmbed !== null) {
-                nodeEmbed.setFields(fields)
-                embeds.push(nodeEmbed)
-            }
-
-            const link = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setLabel(Lang.trans(interaction, 'help.read_full_docs'))
-                        .setURL(`${process.env.GITBOOK_URL}/commands/${page.data.slug}`)
-                        .setStyle('Link')
-                )
-
-            await i.reply({embeds: embeds, components: [link], ephemeral: true})
-        })
-
-        collector.on('end', async collected => {
-            //
         })
     },
+
+    /**
+     * Get the answer from the GitBook API
+     *
+     * @param interaction
+     * @param question
+     * @returns {Promise<axios.AxiosResponse<any>|void>}
+     */
+    async getAnswer(interaction, question) {
+        try {
+            return await axios.post('https://api.gitbook.com/v1/spaces/SrNx1aAiTRCGjylKXiu1/search/ask', {
+                query: question,
+            })
+        } catch (error) {
+            await Log.error(interaction, 7, error)
+
+            return await React.error(interaction, Lang.trans(interaction, 'error.title.error_occurred'), null, {
+                code: 7,
+                edit: true
+            })
+        }
+    },
+
+    /**
+     * Create the reply
+     *
+     * @param interaction
+     * @param question
+     * @param answer
+     * @returns {Promise<{disclaimerEmbed: EmbedBuilder, answerEmbed: EmbedBuilder, FollowupQuestions: ActionRowBuilder<AnyComponentBuilder>}>}
+     */
+    async createReply(interaction, question, answer) {
+        // Create a disclaimer embed
+        const disclaimerEmbed = new EmbedBuilder()
+            .setColor('Yellow')
+            .setTitle('⚠️ Disclaimer')
+            .setDescription('Please note that this AI generated answer may be incorrect or outdated. Always verify any information before making financial decisions.')
+
+        // Create the answer embed
+        const answerEmbed = new EmbedBuilder()
+            .setTitle(question)
+            .setDescription(answer.data.answer.text.slice(0, 1521))
+
+        // Create a button for the first 3 followup questions
+        const FollowupQuestions = new ActionRowBuilder()
+        for (const followup of answer.data.answer.followupQuestions) {
+            const button = new ButtonBuilder()
+                .setLabel(followup)
+                .setStyle('Primary')
+                .setCustomId(`followup:${followup}`)
+
+            FollowupQuestions.addComponents(button)
+        }
+
+        return {disclaimerEmbed, answerEmbed, FollowupQuestions}
+    }
 }

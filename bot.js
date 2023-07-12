@@ -1,11 +1,12 @@
 const {Client, Collection, GatewayIntentBits, Partials} = require('discord.js')
 const fs                                                = require('fs')
 const {DB, React, Token, Lang, Log}                     = require('./utils')
-const dotenv                                            = require('dotenv')
+const dotenv = require('dotenv')
+const axios = require('axios')
 dotenv.config()
 
 // Create a new client instance
-const client = new Client({intents: [GatewayIntentBits.Guilds], partials: [Partials.Channel]})
+const client = new Client({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages], partials: [Partials.Channel]})
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
