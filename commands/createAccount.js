@@ -16,7 +16,7 @@ module.exports = {
         const address = await Account.address(interaction.user.id)
         if (await Account.canTip(address)) {
             return await React.error(interaction, Lang.trans(interaction, 'create.has_account.title'), Lang.trans(interaction, 'create.has_account.description', {username: `${interaction.user.username}#${interaction.user.discriminator}`, address: `${address.substr(0, 6)}...${address.substr(-4, 4)}`}), {
-                edit  : true,
+                edit: true,
                 report: false,
             })
         }
@@ -25,11 +25,11 @@ module.exports = {
         const id = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(interaction.user.id), process.env.CREATE_ACCOUNT_CYPHER_SECRET).toString()
 
         // Send embed
+        const queryString = `/#/create/${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`
+
         const embed = new EmbedBuilder()
             .setTitle(Lang.trans(interaction, 'create.title'))
-            .setDescription(Lang.trans(interaction, 'create.description'))
-
-        const queryString = `/#/create/${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`
+            .setDescription(Lang.trans(interaction, 'create.description') + '```' + process.env.DASBBOARD_URL + queryString + '```')
 
         const mobileButton = new ActionRowBuilder()
             .addComponents(
@@ -47,6 +47,6 @@ module.exports = {
                     .setStyle('Link')
             )
 
-        await interaction.editReply({embeds: [embed], components: [mobileButton, desktopButton]})
+        await interaction.editReply({embeds: [embed], components: [desktopButton]})
     },
 }

@@ -28,7 +28,7 @@
             "title": "You already have an account",
             "description": "An account was already created for :username. Make sure your account dashboard is connected to `:address`"
         },
-        "description": "You can create your tipping account using one of the buttons below.",
+        "description": "Click the button to open the registration page in your default browser, or copy the link below and paste it in your Metamask app browser if you're using a mobile device.",
         "button_mobile": "Create using MetaMask app (mobile)",
         "button_desktop": "Create using browser (desktop)"
     },
