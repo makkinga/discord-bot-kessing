@@ -49,10 +49,11 @@ module.exports = {
         if (!selectedToken) {
             for (const [symbol, token] of Object.entries(tokens)) {
                 const tokenTableRows = []
-
+                const priceChange    = !!Object.keys(token.data.priceChange).length
+                
                 tokenTableRows.push(
                     ['.', '.', Lang.trans(interaction, 'statistics.1h'), '.', Lang.trans(interaction, 'statistics.24h')],
-                    [Lang.trans(interaction, 'statistics.price_change'), '|', `${parseFloat(token.data.priceChange.h1).toFixed(2)}%`, '|', `${parseFloat(token.data.priceChange.h24).toFixed(2)}%`],
+                    [Lang.trans(interaction, 'statistics.price_change'), '|', `${parseFloat(priceChange ? token.data.priceChange.h1 : 0).toFixed(2)}%`, '|', `${parseFloat(priceChange ? token.data.priceChange.h24 : 0).toFixed(2)}%`],
                     [Lang.trans(interaction, 'statistics.buys'), '|', token.data.txns.h1.buys, '|', token.data.txns.h24.buys],
                     [Lang.trans(interaction, 'statistics.sells'), '|', token.data.txns.h1.sells, '|', token.data.txns.h24.sells],
                     [

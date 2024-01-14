@@ -2,6 +2,8 @@ const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
 const {React, Token}                      = require('../utils')
 const {ray}                               = require('node-ray')
 const axios                               = require('axios')
+const dotenv                              = require('dotenv')
+dotenv.config()
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,8 +21,7 @@ module.exports = {
             {name: '£', value: 'gbp'},
         )),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: false})
 
@@ -51,28 +52,26 @@ module.exports = {
         switch (token) {
             case 'JEWEL' :
                 const jewelInfo = await Token.jewelInfo()
-                value           = parseFloat(jewelInfo.priceUsd).toFixed(2)
+                value           = parseFloat(jewelInfo.priceUsd)
                 break
             case 'CRYSTAL' :
                 const crystalInfo = await Token.crystalInfo()
-                value             = parseFloat(crystalInfo.priceUsd).toFixed(2)
+                value             = parseFloat(crystalInfo.priceUsd)
                 break
             case 'JADE' :
                 const jadeInfo = await Token.jadeInfo()
-                value          = parseFloat(jadeInfo.priceUsd).toFixed(2)
+                value          = parseFloat(jadeInfo.priceUsd)
                 break
         }
 
+        const rates = await axios(`https://api.freecurrencyapi.com/v1/latest?apikey=${process.env.CURRENCY_API_KEY}`)
+
         switch (currency) {
             case 'eur' :
-                const euroPrice = await axios(`https://api.exchangerate.host/convert?from=USD&to=EUR&amount=${value}`)
-                value           = parseFloat(euroPrice.data.result).toFixed(2)
-
+                value = parseFloat(value * rates.data.data.EUR).toFixed(6)
                 break
             case 'gbp' :
-                const gbpPrice = await axios(`https://api.exchangerate.host/convert?from=USD&to=GBP&amount=${value}`)
-                value          = parseFloat(gbpPrice.data.result).toFixed(2)
-
+                value = parseFloat(value * rates.data.data.GBP).toFixed(6)
                 break
         }
 

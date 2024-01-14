@@ -51,7 +51,7 @@ client.login(process.env.DISCORD_TOKEN).then(async function () {
     await setPresence()
     setInterval(getTokenInfo, 30000)
     setInterval(setPresence, 5000)
-    setInterval(async () => await accountRoles(client), 5000)
+    setInterval(async () => await accountRoles(client), 10000)
     console.log('Running!')
 })
 

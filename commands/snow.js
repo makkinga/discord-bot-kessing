@@ -1,4 +1,4 @@
-const {SlashCommandBuilder}                          = require('discord.js')
+const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
 const {Transaction, Account, React, Token, Lang, DB} = require('../utils')
 const config                                         = require('../config.json')
 
