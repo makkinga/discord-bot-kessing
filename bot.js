@@ -19,7 +19,7 @@ for (const file of commandFiles) {
     const command = require(`./commands/${file}`)
     client.commands.set(command.data.name, command)
 }
-  
+
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return
 
