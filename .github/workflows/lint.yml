@@ -42,3 +42,4 @@ jobs:
           yamllint_file_or_dir: '.'
           yamllint_strict: false
           yamllint_comment: true
+        continue-on-error: false
