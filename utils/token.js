@@ -7,7 +7,9 @@ const axios = require('axios')
  * @returns {Promise<void>}
  */
 exports.artifact = async function (name) {
-    return require(`../${process.env.NODE_ENV === 'local' ? 'artifacts-local' : 'artifacts'}/${name}.json`)
+    return require(
+        `../${process.env.NODE_ENV === 'local' ? 'artifacts-local' : 'artifacts'}/${name}.json`,
+    )
 }
 
 /**
@@ -17,7 +19,7 @@ exports.artifact = async function (name) {
  */
 exports.jewelInfo = async function () {
     const response = await axios({
-        url   : 'https://api.dexscreener.com/latest/dex/pairs/avalanchedfk/0xcf329b34049033de26e4449aebcb41f1992724d3',
+        url: 'https://api.dexscreener.com/latest/dex/pairs/avalanchedfk/0xcf329b34049033de26e4449aebcb41f1992724d3',
         method: 'get',
     })
 
@@ -31,7 +33,7 @@ exports.jewelInfo = async function () {
  */
 exports.crystalInfo = async function () {
     const response = await axios({
-        url   : 'https://api.dexscreener.io/latest/dex/pairs/avalanchedfk/0x04dec678825b8dfd2d0d9bd83b538be3fbda2926',
+        url: 'https://api.dexscreener.io/latest/dex/pairs/avalanchedfk/0x04dec678825b8dfd2d0d9bd83b538be3fbda2926',
         method: 'get',
     })
 
@@ -45,7 +47,7 @@ exports.crystalInfo = async function () {
  */
 exports.jadeInfo = async function () {
     const response = await axios({
-        url   : 'https://api.dexscreener.com/latest/dex/pairs/klaytn/0x85db3cc4bcdb8bffa073a3307d48ed97c78af0ae',
+        url: 'https://api.dexscreener.com/latest/dex/pairs/klaytn/0x85db3cc4bcdb8bffa073a3307d48ed97c78af0ae',
         method: 'get',
     })
 

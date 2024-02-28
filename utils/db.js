@@ -1,11 +1,16 @@
-const {Sequelize} = require('sequelize')
+const { Sequelize } = require('sequelize')
 
 /* Database */
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-    host   : process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
-    logging: false,
-})
+const sequelize = new Sequelize(
+    process.env.DB_DATABASE,
+    process.env.DB_USERNAME,
+    process.env.DB_PASSWORD,
+    {
+        host: process.env.DB_HOST,
+        dialect: process.env.DB_DIALECT,
+        logging: false,
+    },
+)
 
 /**
  * Sync database
@@ -18,87 +23,95 @@ exports.syncDatabase = async function () {
         console.error('Unable to connect to the database:', error)
     }
 
-    await sequelize.sync({alter: false})
+    await sequelize.sync({ alter: false })
     await this.pendingGifts.truncate()
 }
 
 /* Nonce counter */
-exports.nonceCount = sequelize.define('nonce', {
-    name : {
-        type     : Sequelize.STRING,
-        allowNull: false,
-        unique   : true
+exports.nonceCount = sequelize.define(
+    'nonce',
+    {
+        name: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: true,
+        },
+        nonce: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
     },
-    nonce: {
-        type     : Sequelize.INTEGER,
-        allowNull: false,
-    },
-}, {freezeTableName: true})
+    { freezeTableName: true },
+)
 
 /* Account holders */
 exports.accountHolders = sequelize.define('account_holder', {
-    user     : {
-        type     : Sequelize.STRING,
+    user: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
-    address  : {
-        type     : Sequelize.STRING,
+    address: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
-    role     : {
-        type   : Sequelize.BOOLEAN,
-        default: false
+    role: {
+        type: Sequelize.BOOLEAN,
+        default: false,
     },
     show_name: {
-        type   : Sequelize.BOOLEAN,
-        default: true
+        type: Sequelize.BOOLEAN,
+        default: tru,
     },
-    send_dm  : {
-        type   : Sequelize.BOOLEAN,
-        default: false
-    }
+    send_dm: {
+        type: Sequelize.BOOLEAN,
+        default: false,
+    },
 })
 
 /* Pending gifts */
 exports.pendingGifts = sequelize.define('pending_gift', {
     author: {
-        type     : Sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
-    }
+    },
 })
 
 /* Gift cooldown */
 exports.giftCooldown = sequelize.define('gift_cooldown', {
-    user     : {
-        type     : Sequelize.STRING,
+    user: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
-    command  : {
-        type   : Sequelize.BOOLEAN,
-        default: false
+    command: {
+        type: Sequelize.BOOLEAN,
+        default: false,
     },
-    claim    : {
-        type   : Sequelize.BOOLEAN,
-        default: false
+    claim: {
+        type: Sequelize.BOOLEAN,
+        default: false,
     },
     timestamp: {
-        type     : Sequelize.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
     },
 })
 
 /* Message count */
-exports.messageCount = sequelize.define('message_count', {
-    user : {
-        type     : Sequelize.STRING,
-        allowNull: false,
+exports.messageCount = sequelize.define(
+    'message_count',
+    {
+        user: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        guild: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        count: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+        },
     },
-    guild: {
-        type     : Sequelize.STRING,
-        allowNull: false,
-    },
-    count: {
-        type     : Sequelize.INTEGER,
-        allowNull: false,
-    },
-}, {freezeTableName: true})
+    { freezeTableName: true },
+)

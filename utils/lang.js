@@ -34,7 +34,7 @@ exports.trans = function (interaction, key, params = {}) {
  */
 exports.random = function (interaction, key, params = {}) {
     const lang = require('../lang/en.json')
-    let array  = get(lang, key)
+    let array = get(lang, key)
     let string = array[Math.floor(Math.random() * array.length)]
 
     for (const [key, value] of Object.entries(params)) {
