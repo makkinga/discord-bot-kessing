@@ -1,5 +1,4 @@
 .idea
-.github
 .env
 
 yarn.lock
