@@ -1,20 +1,20 @@
 const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
-const {React, Token}                      = require('../utils')
+const {Token}                             = require('../utils')
 const axios                               = require('axios')
 const dotenv                              = require('dotenv')
 dotenv.config()
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(`calculate`)
-        .setDescription(`Calculate the value of your tokens`)
-        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount`))
-        .addStringOption(option => option.setRequired(true).setName('of').setDescription(`Select a token`).addChoices(
+        .setName('calculate')
+        .setDescription('Calculate the value of your tokens')
+        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription('Enter the amount'))
+        .addStringOption(option => option.setRequired(true).setName('of').setDescription('Select a token').addChoices(
             {name: 'CRYSTAL', value: 'CRYSTAL'},
             {name: 'JEWEL', value: 'JEWEL'},
             {name: 'JADE', value: 'JADE'},
         ))
-        .addStringOption(option => option.setRequired(true).setName('in').setDescription(`Select a currency`).addChoices(
+        .addStringOption(option => option.setRequired(true).setName('in').setDescription('Select a currency').addChoices(
             {name: '$', value: 'usd'},
             {name: '€', value: 'eur'},
             {name: '£', value: 'gbp'},
@@ -48,19 +48,15 @@ module.exports = {
 
         // Get data
         let value = 0
-        switch (token) {
-            case 'JEWEL' :
-                const jewelInfo = await Token.jewelInfo()
-                value           = parseFloat(jewelInfo.priceUsd)
-                break
-            case 'CRYSTAL' :
-                const crystalInfo = await Token.crystalInfo()
-                value             = parseFloat(crystalInfo.priceUsd)
-                break
-            case 'JADE' :
-                const jadeInfo = await Token.jadeInfo()
-                value          = parseFloat(jadeInfo.priceUsd)
-                break
+        if (token === 'JEWEL') {
+            const jewelInfo = await Token.jewelInfo()
+            value           = parseFloat(jewelInfo.priceUsd)
+        } else if (token === 'CRYSTAL') {
+            const crystalInfo = await Token.crystalInfo()
+            value             = parseFloat(crystalInfo.priceUsd)
+        } else if (token === 'JADE') {
+            const jadeInfo = await Token.jadeInfo()
+            value          = parseFloat(jadeInfo.priceUsd)
         }
 
         const rates = await axios(`https://api.freecurrencyapi.com/v1/latest?apikey=${process.env.CURRENCY_API_KEY}`)

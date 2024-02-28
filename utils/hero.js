@@ -1,3 +1,5 @@
+const dateFns = require('date-fns')
+
 const maleFirstNames   = [
     'Dernere',
     'Heremód',
@@ -6132,8 +6134,7 @@ exports.calculateRemainingStamina = (hero, currentTime = new Date()) => {
         return hero.stamina
     }
 
-    const diffInMilliseconds =
-              hero.staminaFullAt.getTime() - currentTime.getTime()
+    const diffInMilliseconds = hero.staminaFullAt.getTime() - currentTime.getTime()
 
     const diffInMinutes = dateFns.millisecondsToMinutes(diffInMilliseconds)
 

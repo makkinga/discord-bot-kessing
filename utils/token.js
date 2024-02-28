@@ -1,5 +1,4 @@
 const axios = require('axios')
-const {ray} = require('node-ray')
 
 /**
  * Returns the token artifact

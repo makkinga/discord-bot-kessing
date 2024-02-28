@@ -49,13 +49,12 @@ exports.getNonce = async function (provider, signer) {
  * @param signer
  * @returns {Promise<void>}
  */
-async function checkGas(provider, signer)
-{
+async function checkGas(provider, signer) {
     let balance = await provider.getBalance(signer.address)
-    balance = ethers.utils.formatEther(balance)
+    balance     = ethers.utils.formatEther(balance)
     if (balance < 10) {
         await webhook.send({
-            text: `Help <@U039W35R943>! I\'m running low on gas here! Only ${parseFloat(balance).toFixed(2)} JEWEL left before I completely run out!`,
+            text: `Help <@U039W35R943>! I'm running low on gas here! Only ${parseFloat(balance).toFixed(2)} JEWEL left before I completely run out!`,
         })
     }
 }
@@ -111,7 +110,7 @@ exports.make = async function (interaction, member, from, to, token, amount) {
 
     if (interaction.commandName !== 'gift') {
         const toNotification = new EmbedBuilder()
-            .setTitle(`You got tipped!`)
+            .setTitle('You got tipped!')
             .setDescription(`@${interaction.user.username} tipped you ${amount} ${artifact.name} in <#${interaction.channel.id}>`)
             .setTimestamp()
 

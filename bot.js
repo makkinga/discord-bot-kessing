@@ -2,7 +2,6 @@ const {Client, Collection, GatewayIntentBits, Partials} = require('discord.js')
 const fs                                                = require('fs')
 const {DB, React, Token, Lang, Log}                     = require('./utils')
 const dotenv                                            = require('dotenv')
-const axios                                             = require('axios')
 dotenv.config()
 
 // Create a new client instance

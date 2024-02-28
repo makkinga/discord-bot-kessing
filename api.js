@@ -28,7 +28,7 @@ app.use(function (req, res, next) {
 
 app.get('/ping', async function (request, response) {
     response.writeHead(200, {'Content-Type': 'application/json'})
-    response.write(JSON.stringify({success: true, message: `pong`}))
+    response.write(JSON.stringify({success: true, message: 'pong'}))
     response.end()
 })
 
@@ -52,7 +52,7 @@ app.post('/verify-account', async function (request, response) {
 
         if (await Account.verified(address)) {
             response.writeHead(403, {'Content-Type': 'application/json'})
-            response.write(JSON.stringify({success: false, message: `Account already verified`}))
+            response.write(JSON.stringify({success: false, message: 'Account already verified'}))
             response.end()
 
             return
@@ -81,7 +81,7 @@ app.post('/verify-account', async function (request, response) {
         console.log(error)
 
         response.writeHead(500, {'Content-Type': 'application/json'})
-        response.write(JSON.stringify({success: false, message: `An error occurred`}))
+        response.write(JSON.stringify({success: false, message: 'An error occurred'}))
         response.end()
     }
 })

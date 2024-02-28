@@ -61,7 +61,7 @@ module.exports = {
         let accountHolders = await DB.accountHolders.findAll({where: {role: true}, attributes: ['user']})
         accountHolders     = accountHolders.map(r => r.user)
 
-        for (const [key, message] of messages.entries()) {
+        for (const message of messages.entries()) {
             // Stop when we reach 10
             if (ids.length === 10) {
                 break

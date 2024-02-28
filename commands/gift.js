@@ -5,9 +5,9 @@ const moment                                                                    
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(`gift`)
-        .setDescription(`Place a gift that can be claimed by any member`)
-        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to gift`))
+        .setName('gift')
+        .setDescription('Place a gift that can be claimed by any member')
+        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription('Enter the amount to gift'))
         .addStringOption(option => option.setRequired(false).setName('token').setDescription('Change the token').addChoices(
             {name: 'CRYSTAL', value: 'CRYSTAL'},
             {name: 'JEWEL', value: 'JEWEL'},

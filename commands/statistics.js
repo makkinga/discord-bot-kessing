@@ -1,5 +1,5 @@
 const config                                                 = require('../config.json')
-const {React, Token, Lang}                                   = require('../utils')
+const {Token, Lang}                                          = require('../utils')
 const table                                                  = require('text-table')
 const moment                                                 = require('moment')
 const {SlashCommandBuilder, EmbedBuilder, AttachmentBuilder} = require('discord.js')
@@ -8,9 +8,9 @@ const {promises: fs}                                         = require('fs')
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName(`statistics`)
-        .setDescription(`Displays token statistics`)
-        .addStringOption(option => option.setRequired(false).setName('token').setDescription(`Select a token`).addChoices(
+        .setName('statistics')
+        .setDescription('Displays token statistics')
+        .addStringOption(option => option.setRequired(false).setName('token').setDescription('Select a token').addChoices(
             {name: 'CRYSTAL', value: 'CRYSTAL'},
             {name: 'JEWEL', value: 'JEWEL'},
             {name: 'JADE', value: 'JADE'},
@@ -64,7 +64,7 @@ module.exports = {
                     ],
                 )
 
-                const arrow = (token.data.priceChange.h1 > 0 ? `↗️` : `↘️`)
+                const arrow = (token.data.priceChange.h1 > 0 ? '↗️' : '↘️')
 
                 fields.push(
                     {name: `${arrow} ${symbol} $${token.usd}`, value: '```' + table(tokenTableRows) + '``` ' + `[${Lang.trans(interaction, 'statistics.chart_link_label', {symbol: symbol})}](${token.data.url} '${Lang.trans(interaction, 'statistics.chart_link_title', {symbol: symbol})}')`}
@@ -89,7 +89,7 @@ module.exports = {
                 ],
             )
 
-            const arrow = (token.data.priceChange.h1 > 0 ? `↗️` : `↘️`)
+            const arrow = (token.data.priceChange.h1 > 0 ? '↗️' : '↘️')
 
             fields.push({name: `${arrow} ${selectedToken} $${token.usd}`, value: '```' + table(tokenTableRows) + '```'})
 

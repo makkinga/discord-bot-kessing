@@ -46,9 +46,9 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'balance.title'))
             .setDescription('```' + table(balanceRows) + '```')
             .addFields(
-                {name: `Tipped`, value: '```' + table(tippedRows) + '```'},
-                {name: `Received`, value: '```' + table(receivedRows) + '```'},
-                {name: `Burned`, value: '```' + table(burnedRows) + '```'},
+                {name: 'Tipped', value: '```' + table(tippedRows) + '```'},
+                {name: 'Received', value: '```' + table(receivedRows) + '```'},
+                {name: 'Burned', value: '```' + table(burnedRows) + '```'},
             )
             .setTimestamp()
 

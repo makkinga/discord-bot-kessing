@@ -29,8 +29,8 @@ exports.error = async function (interaction, title, description = null, options 
 
     if (options.code ?? false) {
         embed.addFields(
-            {name: `Error code`, value: `\`E${options.code.toString().padStart(3, '0')}\``, inline: true},
-            {name: `Reference`, value: `\`${reference}\``, inline: true}
+            {name: 'Error code', value: `\`E${options.code.toString().padStart(3, '0')}\``, inline: true},
+            {name: 'Reference', value: `\`${reference}\``, inline: true}
         )
     }
 

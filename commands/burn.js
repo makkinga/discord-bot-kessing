@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('burn')
         .setDescription('Burn your tokens')
-        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription(`Enter the amount to burn`))
+        .addNumberOption(option => option.setRequired(true).setName('amount').setDescription('Enter the amount to burn'))
         .addStringOption(option => option.setRequired(false).setName('token').setDescription('Change the token').addChoices(
             {name: 'CRYSTAL', value: 'CRYSTAL'},
             {name: 'JEWEL', value: 'JEWEL'},

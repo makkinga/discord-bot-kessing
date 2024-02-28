@@ -30,13 +30,13 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'create.title'))
             .setDescription(Lang.trans(interaction, 'create.description') + '```' + process.env.DASBBOARD_URL + queryString + '```')
 
-        const mobileButton = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setLabel(Lang.trans(interaction, 'create.button_mobile'))
-                    .setURL(`${process.env.DASBBOARD_DEEPLINK_URL}${queryString}`)
-                    .setStyle('Link')
-            )
+        // const mobileButton = new ActionRowBuilder()
+        //     .addComponents(
+        //         new ButtonBuilder()
+        //             .setLabel(Lang.trans(interaction, 'create.button_mobile'))
+        //             .setURL(`${process.env.DASBBOARD_DEEPLINK_URL}${queryString}`)
+        //             .setStyle('Link')
+        //     )
 
         const desktopButton = new ActionRowBuilder()
             .addComponents(
