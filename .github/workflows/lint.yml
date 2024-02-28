@@ -45,15 +45,14 @@ jobs:
         continue-on-error: false
 
   prettier:
+    name: prettier
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
-
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
