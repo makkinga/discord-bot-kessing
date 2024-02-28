@@ -29,3 +29,16 @@ jobs:
           --ext .js,.jsx,.ts,.tsx
           --fix
         continue-on-error: false
+
+  yamllint:
+    name: yamllint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Run Yamllint
+        uses: karancode/yamllint-github-action@master
+        with:
+          yamllint_file_or_dir: '.'
+          yamllint_strict: false
+          yamllint_comment: true
