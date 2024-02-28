@@ -14,8 +14,7 @@ module.exports = {
         .setName(`about`)
         .setDescription(`About this bot`),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
 

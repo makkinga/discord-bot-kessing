@@ -1,9 +1,7 @@
-const {SlashCommandBuilder, EmbedBuilder, MessageActionRow, MessageButton, ButtonStyle, ActionRowBuilder, ButtonBuilder} = require('discord.js')
-const {Transaction, React, Lang, Account, Token, DB}                                                                     = require('../utils')
-const config                                                                                                             = require('../config.json')
-const {Op}                                                                                                               = require('sequelize')
-const moment                                                                                                             = require('moment')
-
+const {SlashCommandBuilder, EmbedBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder} = require('discord.js')
+const {Transaction, React, Lang, Account, Token, DB}                                    = require('../utils')
+const {Op}                                                                              = require('sequelize')
+const moment                                                                            = require('moment')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,8 +13,7 @@ module.exports = {
             {name: 'JEWEL', value: 'JEWEL'},
         )),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: false})
 

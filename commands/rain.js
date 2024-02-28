@@ -13,8 +13,7 @@ module.exports = {
             {name: '@True Hero', value: 'true_hero'},
         )),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: false})
 

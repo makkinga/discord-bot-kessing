@@ -7,8 +7,7 @@ module.exports = {
         .setName('create-account')
         .setDescription('Create an account'),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
 

@@ -1,5 +1,5 @@
-const {SlashCommandBuilder, EmbedBuilder, userMention, PermissionFlagsBits} = require('discord.js')
-const {Account, React, Lang}                                                = require('../utils')
+const {SlashCommandBuilder, EmbedBuilder, userMention} = require('discord.js')
+const {Account, React, Lang}                           = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -7,8 +7,7 @@ module.exports = {
         .setDescription('Ban members from tipping')
         .addUserOption(option => option.setRequired(true).setName('member').setDescription('Select a member to ban')),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: false})
 

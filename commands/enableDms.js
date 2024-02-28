@@ -9,8 +9,7 @@ module.exports = {
         .setDescription('Enable or disable direct messages after you caught rain or snow')
         .addBooleanOption(option => option.setRequired(true).setName('enabled').setDescription('Select whether or not to receive direct messages')),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
 

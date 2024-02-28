@@ -1,6 +1,5 @@
 const {SlashCommandBuilder, EmbedBuilder} = require('discord.js')
 const {React, Token}                      = require('../utils')
-const {ray}                               = require('node-ray')
 const axios                               = require('axios')
 const dotenv                              = require('dotenv')
 dotenv.config()

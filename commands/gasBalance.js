@@ -6,8 +6,7 @@ module.exports = {
         .setName('gas-balance')
         .setDescription('Kessing\'s gas balance'),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
 

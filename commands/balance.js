@@ -10,8 +10,7 @@ module.exports = {
         .setName('balance')
         .setDescription('See your current balance'),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
 

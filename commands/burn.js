@@ -1,7 +1,6 @@
 const {SlashCommandBuilder}                      = require('discord.js')
 const {Account, React, Token, Transaction, Lang} = require('../utils')
 
-
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('burn')
@@ -12,8 +11,7 @@ module.exports = {
             {name: 'JEWEL', value: 'JEWEL'},
         )),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: false})
 

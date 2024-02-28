@@ -1,8 +1,8 @@
 const {SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder} = require('discord.js')
-const axios = require('axios')
-const {Lang} = require('../utils')
-const Log = require('../utils/log')
-const React = require('../utils/react')
+const axios                                                                = require('axios')
+const {Lang}                                                               = require('../utils')
+const Log                                                                  = require('../utils/log')
+const React                                                                = require('../utils/react')
 
 module.exports = {
     data: new SlashCommandBuilder()

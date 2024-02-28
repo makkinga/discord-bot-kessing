@@ -16,8 +16,7 @@ module.exports = {
             {name: 'JADE', value: 'JADE'},
         )),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Options
         const selectedToken = interaction.options.getString('token')
 
@@ -50,7 +49,7 @@ module.exports = {
             for (const [symbol, token] of Object.entries(tokens)) {
                 const tokenTableRows = []
                 const priceChange    = !!Object.keys(token.data.priceChange).length
-                
+
                 tokenTableRows.push(
                     ['.', '.', Lang.trans(interaction, 'statistics.1h'), '.', Lang.trans(interaction, 'statistics.24h')],
                     [Lang.trans(interaction, 'statistics.price_change'), '|', `${parseFloat(priceChange ? token.data.priceChange.h1 : 0).toFixed(2)}%`, '|', `${parseFloat(priceChange ? token.data.priceChange.h24 : 0).toFixed(2)}%`],

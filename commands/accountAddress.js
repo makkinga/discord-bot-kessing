@@ -6,8 +6,7 @@ module.exports = {
         .setName('account-address')
         .setDescription('Returns the wallet address connected to your tipping account'),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
 

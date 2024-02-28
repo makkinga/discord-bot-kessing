@@ -9,8 +9,7 @@ module.exports = {
         .setDescription('Enable or disable displaying your username on rain responses')
         .addBooleanOption(option => option.setRequired(true).setName('enabled').setDescription('Select whether or not to display your username')),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ephemeral: true})
 

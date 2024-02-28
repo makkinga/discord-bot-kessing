@@ -1,8 +1,8 @@
 const {Client, Collection, GatewayIntentBits, Partials} = require('discord.js')
 const fs                                                = require('fs')
 const {DB, React, Token, Lang, Log}                     = require('./utils')
-const dotenv = require('dotenv')
-const axios = require('axios')
+const dotenv                                            = require('dotenv')
+const axios                                             = require('axios')
 dotenv.config()
 
 // Create a new client instance
@@ -64,8 +64,7 @@ let jewelPriceUsd,
     jadePriceChange = 0
 let presence        = 'jewel'
 
-async function setPresence()
-{
+async function setPresence() {
     if (presence === 'jewel') {
         await client.user.setPresence({activities: [{name: `1JE at $${jewelPriceUsd} (${jewelPriceChange}%)`, type: 3}]})
 
@@ -81,8 +80,7 @@ async function setPresence()
     }
 }
 
-async function getTokenInfo()
-{
+async function getTokenInfo() {
     try {
         const jewelInfo   = await Token.jewelInfo()
         const crystalInfo = await Token.crystalInfo()
@@ -101,8 +99,7 @@ async function getTokenInfo()
     }
 }
 
-async function accountRoles()
-{
+async function accountRoles() {
     const accounts = await DB.accountHolders.findAll({
         where: {
             role: false
