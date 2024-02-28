@@ -40,6 +40,6 @@ jobs:
         uses: karancode/yamllint-github-action@master
         with:
           yamllint_file_or_dir: '.'
-          yamllint_strict: false
+          yamllint_strict: true
           yamllint_comment: true
         continue-on-error: false
