@@ -51,7 +51,7 @@ module.exports = {
             i.customId.startsWith('followup:') &&
             i.user.id === interaction.user.id
         const collector = interaction.channel.createMessageComponentCollector({
-            filte,
+            filter,
         })
 
         collector.on('collect', async (i) => {

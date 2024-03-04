@@ -70,7 +70,7 @@ module.exports = {
                     Lang.trans(interaction, 'error.description.banned'),
                     { accountDashboard: process.env.DASHBOARD_URL },
                     {
-                        edit: tru,
+                        edit: true,
                     },
                 )
             }
