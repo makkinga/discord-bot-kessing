@@ -167,13 +167,7 @@
         }
     },
     "response": {
-        "titles": [
-            "Adventurer",
-            "Traveller",
-            "Citizen",
-            "my guy",
-            "Ser"
-        ],
+        "titles": ["Adventurer", "Traveller", "Citizen", "my guy", "Ser"],
         "small_tip": [
             "As you wish.",
             "As you require.",

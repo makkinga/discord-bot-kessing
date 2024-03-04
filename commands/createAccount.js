@@ -1,52 +1,75 @@
-const {SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder} = require('discord.js')
-const CryptoJS                                                             = require('crypto-js')
-const {Lang, Account, React}                                               = require('../utils')
+const {
+    SlashCommandBuilder,
+    EmbedBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+} = require('discord.js')
+const CryptoJS = require('crypto-js')
+const { Lang, Account, React } = require('../utils')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('create-account')
         .setDescription('Create an account'),
 
-    async execute(interaction)
-    {
+    async execute(interaction) {
         // Defer reply
-        await interaction.deferReply({ephemeral: true})
+        await interaction.deferReply({ ephemeral: true })
 
         // Checks
         const address = await Account.address(interaction.user.id)
         if (await Account.canTip(address)) {
-            return await React.error(interaction, Lang.trans(interaction, 'create.has_account.title'), Lang.trans(interaction, 'create.has_account.description', {username: `${interaction.user.username}#${interaction.user.discriminator}`, address: `${address.substr(0, 6)}...${address.substr(-4, 4)}`}), {
-                edit: true,
-                report: false,
-            })
+            return await React.error(
+                interaction,
+                Lang.trans(interaction, 'create.has_account.title'),
+                Lang.trans(interaction, 'create.has_account.description', {
+                    username: `${interaction.user.username}#${interaction.user.discriminator}`,
+                    address: `${address.substr(0, 6)}...${address.substr(-4, 4)}`,
+                }),
+                {
+                    edit: true,
+                    report: false,
+                },
+            )
         }
 
         // Get data
-        const id = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(interaction.user.id), process.env.CREATE_ACCOUNT_CYPHER_SECRET).toString()
+        const id = CryptoJS.AES.encrypt(
+            CryptoJS.enc.Utf8.parse(interaction.user.id),
+            process.env.CREATE_ACCOUNT_CYPHER_SECET,
+        ).toString()
 
         // Send embed
         const queryString = `/#/create/${id.replaceAll('+', ':p:').replaceAll('/', ':s:')}`
 
         const embed = new EmbedBuilder()
             .setTitle(Lang.trans(interaction, 'create.title'))
-            .setDescription(Lang.trans(interaction, 'create.description') + '```' + process.env.DASBBOARD_URL + queryString + '```')
-
-        const mobileButton = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setLabel(Lang.trans(interaction, 'create.button_mobile'))
-                    .setURL(`${process.env.DASBBOARD_DEEPLINK_URL}${queryString}`)
-                    .setStyle('Link')
+            .setDescription(
+                Lang.trans(interaction, 'create.description') +
+                    '```' +
+                    process.env.DASBBOARD_URL +
+                    queryString +
+                    '```',
             )
 
-        const desktopButton = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setLabel(Lang.trans(interaction, 'create.button_desktop'))
-                    .setURL(`${process.env.DASBBOARD_URL}${queryString}`)
-                    .setStyle('Link')
-            )
+        // const mobileButton = new ActionRowBuilder()
+        //     .addComponents(
+        //         new ButtonBuilder()
+        //             .setLabel(Lang.trans(interaction, 'create.button_mobile'))
+        //             .setURL(`${process.env.DASBBOARD_DEEPLINK_URL}${queryString}`)
+        //             .setStyle('Link')
+        //     )
 
-        await interaction.editReply({embeds: [embed], components: [desktopButton]})
+        const desktopButton = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setLabel(Lang.trans(interaction, 'create.button_desktop'))
+                .setURL(`${process.env.DASBBOARD_URL}${queryString}`)
+                .setStyle('Link'),
+        )
+
+        await interaction.editReply({
+            embeds: [embed],
+            components: [desktopButton],
+        })
     },
 }

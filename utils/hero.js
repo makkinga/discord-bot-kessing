@@ -1,4 +1,6 @@
-const maleFirstNames   = [
+const dateFns = require('date-fns')
+
+const maleFirstNames = [
     'Dernere',
     'Heremód',
     'Fréabald',
@@ -1998,7 +2000,7 @@ const maleFirstNames   = [
     'thaesonrel',
     'burinnus',
     'yilgultael',
-    'idrosrial'
+    'idrosrial',
 ]
 const femaleFirstNames = [
     'Alexandria',
@@ -4056,9 +4058,9 @@ const femaleFirstNames = [
     'Grainne',
     'Telyn',
     'Caitlan',
-    'Argoel'
+    'Argoel',
 ]
-const lastNames        = [
+const lastNames = [
     'ironsteam',
     'boneglide',
     'havenfollower',
@@ -6004,18 +6006,18 @@ const lastNames        = [
     'Selle',
     'Staelle',
     'Caerlight',
-    'B\'zhalo',
-    'O\'xin',
-    'M\'riso',
-    'Y\'rhotcheh',
-    'A\'xer',
-    'J\'rexeh',
-    'P\'xhike',
-    'U\'rhomuh',
-    'W\'nonu',
-    'J\'mhhuk',
-    'P\'lholih',
-    'C\'rhaxa',
+    "B'zhalo",
+    "O'xin",
+    "M'riso",
+    "Y'rhotcheh",
+    "A'xer",
+    "J'rexeh",
+    "P'xhike",
+    "U'rhomuh",
+    "W'nonu",
+    "J'mhhuk",
+    "P'lholih",
+    "C'rhaxa",
     'taoich',
     'brill',
     'cas',
@@ -6065,16 +6067,10 @@ const lastNames        = [
     'momhlí',
     'tónmolgal',
     'céamhríolmómh',
-    'dúgheli'
+    'dúgheli',
 ]
 
-const rarities = [
-    'Common',
-    'Uncommon',
-    'Rare',
-    'Legendary',
-    'Mythic',
-]
+const rarities = ['Common', 'Uncommon', 'Rare', 'Legendary', 'Mythic']
 
 const rarityColors = [
     '#91959b', // Common
@@ -6107,7 +6103,11 @@ exports.getLastName = function (lastNameIndex) {
 }
 
 exports.getFullName = function (gender, firstNameIndex, lastNameIndex) {
-    return this.getFirstName(gender, firstNameIndex) + ' ' + this.getLastName(lastNameIndex)
+    return (
+        this.getFirstName(gender, firstNameIndex) +
+        ' ' +
+        this.getLastName(lastNameIndex)
+    )
 }
 
 exports.getRarity = function (rarityIndex) {
@@ -6133,12 +6133,14 @@ exports.calculateRemainingStamina = (hero, currentTime = new Date()) => {
     }
 
     const diffInMilliseconds =
-              hero.staminaFullAt.getTime() - currentTime.getTime()
+        hero.staminaFullAt.getTime() - currentTime.getTime()
 
     const diffInMinutes = dateFns.millisecondsToMinutes(diffInMilliseconds)
 
     if (diffInMinutes) {
-        return hero.stamina - Math.ceil(diffInMinutes / MINUTES_PER_STAMINA_POINT)
+        return (
+            hero.stamina - Math.ceil(diffInMinutes / MINUTES_PER_STAMINA_POINT)
+        )
     }
 
     return hero.stamina

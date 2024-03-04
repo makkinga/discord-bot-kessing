@@ -1,24 +1,29 @@
-const {ethers}    = require('ethers')
+const { ethers } = require('ethers')
 const transaction = require('./transaction')
-const dotenv      = require('dotenv')
+const dotenv = require('dotenv')
 dotenv.config()
-const bankArtifact = require(`../${process.env.NODE_ENV === 'local' ? 'artifacts-local' : 'artifacts'}/bank.json`)
-const provider     = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-const signer       = new ethers.Wallet(process.env.BOT_PKEY, provider)
-const bankContract = new ethers.Contract(bankArtifact.address, bankArtifact.abi, provider)
-const bank         = bankContract.connect(signer)
+const bankArtifact = require(
+    `../${process.env.NODE_ENV === 'local' ? 'artifacts-local' : 'artifacts'}/bank.json`,
+)
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
+const signer = new ethers.Wallet(process.env.BOT_PKEY, provider)
+const bankContract = new ethers.Contract(
+    bankArtifact.address,
+    bankArtifact.abi,
+    provider,
+)
+const bank = bankContract.connect(signer)
 
 /**
  * Returns the transaction options
  *
  * @returns {Promise<{gasLimit: number, nonce: void, gasPrice: BigNumber}>}
  */
-async function getOptions()
-{
+async function getOptions() {
     return {
         gasPrice: await provider.getGasPrice(),
         gasLimit: 3000000,
-        nonce   : await transaction.getNonce(provider, signer)
+        nonce: await transaction.getNonce(provider, signer),
     }
 }
 
@@ -116,13 +121,17 @@ exports.unban = async function (address) {
 /**
  * Returns whether the account has enough balance
  *
- * @returns {Promise<boolean>}
+ * @returns {Promise<number>}
  * @param address
  * @param amount
  * @param token
  */
 exports.hasBalance = async function (address, amount, token) {
-    return parseFloat(ethers.utils.formatEther(await bank.getAccountBalance(address, token))) >= amount
+    return parseFloat(
+        ethers.utils.formatEther(
+            await bank.getAccountBalance(address, token),
+        ) >= amount,
+    )
 }
 
 /**
@@ -133,7 +142,9 @@ exports.hasBalance = async function (address, amount, token) {
  * @param token
  */
 exports.balance = async function (address, token) {
-    return parseFloat(ethers.utils.formatEther(await bank.getAccountBalance(address, token))).toFixed(4)
+    return parseFloat(
+        ethers.utils.formatEther(await bank.getAccountBalance(address, token)),
+    ).toFixed(4)
 }
 
 /**
@@ -144,7 +155,9 @@ exports.balance = async function (address, token) {
  * @param token
  */
 exports.tipped = async function (address, token) {
-    return parseFloat(ethers.utils.formatEther(await bank.getAccountTipped(address, token))).toFixed(4)
+    return parseFloat(
+        ethers.utils.formatEther(await bank.getAccountTipped(address, token)),
+    ).toFixed(4)
 }
 
 /**
@@ -155,7 +168,9 @@ exports.tipped = async function (address, token) {
  * @param token
  */
 exports.received = async function (address, token) {
-    return parseFloat(ethers.utils.formatEther(await bank.getAccountReceived(address, token))).toFixed(4)
+    return parseFloat(
+        ethers.utils.formatEther(await bank.getAccountReceived(address, token)),
+    ).toFixed(4)
 }
 
 /**
@@ -166,5 +181,7 @@ exports.received = async function (address, token) {
  * @param token
  */
 exports.burned = async function (address, token) {
-    return parseFloat(ethers.utils.formatEther(await bank.getAccountBurned(address, token))).toFixed(4)
+    return parseFloat(
+        ethers.utils.formatEther(await bank.getAccountBurned(address, token)),
+    ).toFixed(4)
 }

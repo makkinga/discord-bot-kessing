@@ -5,7 +5,6 @@
 #### DeFi Kingdoms Discord Tipbot
 
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/makkinga/discord-bot-kessing?label=version&style=flat-square)
-![GitHub](https://img.shields.io/github/license/makkinga/discord-bot-kessing?style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/makkinga/discord-bot-kessing?style=flat-square)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/makkinga/discord-bot-kessing?style=flat-square)
 
@@ -25,40 +24,89 @@ Consider buying me a coffee
 
 To report bugs, request a feature, or support, please join our [Discord server](https://discord.gg/m3QjcuCwDQ) and head over to the `#bug-reporting`, `#feature-requests` or `#support` channel to create a ticket
 
+## Installation
+
+Before you start, make sure you have the following installed:
+
+-   [Docker](https://www.docker.com/products/docker-desktop)
+-   [Docker Compose](https://docs.docker.com/compose/install/)
+-   [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+Clone the repository
+
+```bash
+git clone git@github.com:makkinga/discord-bot-kessing.git
+```
+
+Navigate to the directory
+
+```bash
+cd discord-bot-kessing
+```
+
+[Configure](#configuration) the environment variables
+
+Build the Docker image and start the container
+
+```bash
+docker compose up -d
+```
+
+Starting the container will automatically start the bot using PM2
+
+## Configuration
+
+Copy the `.env.example` file to `.env`
+
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file and fill in the required environment variables
+
+## Development
+
+To log in to the container use the following command
+
+```bash
+docker exec -it kessing /bin/bash
+```
+
+To run commands inside the container without logging in, use the following command
+
+```bash
+docker exec -it kessing-bot-1 <command>
+```
+
+## Testing
+
+To add the bot to a testing server you can use the following link
+
+```
+https://discord.com/api/oauth2/authorize?client_id=[CLIENT_ID]&permissions=534523149376&scope=bot%20applications.commands
+```
+
 ## Contributing
 
-In general, I follow the "fork-and-pull" Git workflow.
+To contribute to this project, please create a new branch with the following naming convention:
 
-1. Fork the repo on GitHub
-2. Clone the project to your own machine
-3. Commit changes to your own branch
-4. Push your work back up to your fork
-5. Submit a Pull request so that I can review your changes
+| Branch type | Branch name                      |
+| ----------- | :------------------------------- |
+| Feature     | `feature/<feature-name>`         |
+| Bugfix      | `bugfix/<bug-name>`              |
+| Hotfix      | `hotfix/<hotfix-name>`           |
+| Chore       | `chore/<chore-name>`             |
+| Refactor    | `refactor/<refactor-name>`       |
+| Performance | `performance/<performance-name>` |
+| Security    | `security/<security-name>`       |
+| Tooling     | `tooling/<tooling-name>`         |
+| CI          | `ci/<ci-name>`                   |
+| Other       | `other/<other-name>`             |
 
-> NOTE: Be sure to merge the latest from "upstream" before making a pull request!
+When you are ready to submit a pull request, please make sure to merge the latest from the `upstream` repository and resolve any conflicts before submitting the pull request.
 
-> TIP: For "small" changes, prefix the repo URL with `vscode.dev/`
+> For "small" changes, prefix the repo URL with `vscode.dev/`
 
-## Updating
+## Code style
 
-```bash
-git pull && docker build . -t kessing:latest && docker compose down && docker compose up -d
-```
-
-## Running
-
-```bash
-  docker exec -it kessing /bin/bash
-```
-
-## License
-
-> IMPORTANT: I do not offer any support whatsoever to setting up or modifying this bot
-
-Copyright 2023
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+The code style is enforced using ESLint, Yamllint, and Prettier. Please make sure to run the linter before submitting a pull request.
