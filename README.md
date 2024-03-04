@@ -28,9 +28,9 @@ To report bugs, request a feature, or support, please join our [Discord server](
 
 Before you start, make sure you have the following installed:
 
-- [Docker](https://www.docker.com/products/docker-desktop)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+-   [Docker](https://www.docker.com/products/docker-desktop)
+-   [Docker Compose](https://docs.docker.com/compose/install/)
+-   [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
 Clone the repository
 
@@ -75,7 +75,7 @@ docker exec -it kessing /bin/bash
 To run commands inside the container without logging in, use the following command
 
 ```bash
-docker exec -it kessing-bot-1 <command> 
+docker exec -it kessing-bot-1 <command>
 ```
 
 ## Testing
@@ -91,7 +91,7 @@ https://discord.com/api/oauth2/authorize?client_id=[CLIENT_ID]&permissions=53452
 To contribute to this project, please create a new branch with the following naming convention:
 
 | Branch type | Branch name                      |
-|-------------|:---------------------------------|
+| ----------- | :------------------------------- |
 | Feature     | `feature/<feature-name>`         |
 | Bugfix      | `bugfix/<bug-name>`              |
 | Hotfix      | `hotfix/<hotfix-name>`           |
