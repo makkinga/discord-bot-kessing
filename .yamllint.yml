@@ -1,10 +1,10 @@
 extends: default
 
 ignore: |
-  /node_modules/
+    /node_modules/
 
 rules:
-  document-start:
-    present: false
-  truthy:
-    check-keys: false
+    document-start:
+        present: false
+    truthy:
+        check-keys: false
