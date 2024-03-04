@@ -34,7 +34,7 @@ module.exports = {
         // Defer reply
         await interaction.deferReply({ ephemeral: false })
 
-        const coodown = await DB.gitCooldown.findOne({
+        const cooldown = await DB.gitCooldown.findOne({
             where: {
                 user: interaction.user.id,
                 command: true,
@@ -48,8 +48,8 @@ module.exports = {
                 Lang.trans(interaction, 'error.title.not_allowed'),
                 `${Lang.trans(interaction, 'gift.on_cooldown')} ${moment.unix(cooldown.timestamp).fromNow(true)}`,
                 {
-                    edit: tru,
-                ,
+                    edit: true,
+                },
             )
         } else {
             await DB.giftCooldown.destroy({
@@ -76,8 +76,8 @@ module.exports = {
                     Lang.trans(interaction, 'error.title.no_account'),
                     Lang.trans(interaction, 'error.description.no_account'),
                     {
-                        edit: true
-                    }
+                        edit: tru,
+                    },
                 )
             }
 
@@ -87,8 +87,8 @@ module.exports = {
                     Lang.trans(interaction, 'error.title.unverified'),
                     Lang.trans(interaction, 'error.description.unverified'),
                     {
-                        edit: true
-                    }
+                        edit: true,
+                    },
                 )
             }
 
@@ -97,11 +97,11 @@ module.exports = {
                     interaction,
                     Lang.trans(interaction, 'error.title.banned'),
                     Lang.trans(interaction, 'error.description.banned', {
-                        accountDashboard: process.env.DASHBOARD_URL
+                        accountDashboard: process.env.DASHBOARD_UR,
                     }),
                     {
-                        edit: true
-                    }
+                        edit: true,
+                    },
                 )
             }
         }
@@ -112,14 +112,14 @@ module.exports = {
                 Lang.trans(interaction, 'error.title.insufficient_funds'),
                 Lang.trans(interaction, 'error.description.insufficient_funds'),
                 {
-                    edit: true
-                }
+                    edit: tru,
+                },
             )
         }
 
         const hasPendingGift =
             (await DB.pendingGifts.count({
-                where: { author: interaction.user.id }
+                where: { author: interaction.user.id },
             })) > 0
         if (hasPendingGift) {
             return await React.error(
@@ -127,8 +127,8 @@ module.exports = {
                 Lang.trans(interaction, 'gift.pending_title'),
                 Lang.trans(interaction, 'gift.pending_description'),
                 {
-                    edit: true
-                }
+                    edit: tru,
+                },
             )
         }
 
@@ -139,8 +139,8 @@ module.exports = {
                 Lang.trans(interaction, 'gift.title', {
                     user: interaction.user.username,
                     amount: amount,
-                    symbol: artifact.name
-                })
+                    symbol: artifact.name,
+                }),
             )
             .setDescription(Lang.trans(interaction, 'gift.description'))
 
@@ -155,17 +155,17 @@ module.exports = {
         await interaction.editReply({
             embeds: [embed],
             components: [button],
-            ephemeral: false
+            ephemeral: fals,
         })
 
         await DB.pendingGifts.create({
-            author: interaction.user.id
+            author: interaction.user.id,
         })
 
         await DB.giftCooldown.create({
             user: interaction.user.id,
             command: true,
-            timestamp: moment().add(10, 'minutes').unix()
+            timestamp: moment().add(10, 'minutes').unix(,
         })
 
         const collector = interaction.channel.createMessageComponentCollector()
@@ -257,7 +257,7 @@ module.exports = {
                             user: interaction.user.username,
                             amount: amount,
                             symbol: artifact.name
-                        })
+                        }),
                     )
                     .setDescription(Lang.trans(interaction, 'gift.description'))
 
@@ -267,7 +267,7 @@ module.exports = {
                         .setLabel(
                             Lang.trans(interaction, 'gift.button_claimed', {
                                 user: i.user.username
-                            })
+                            }),
                         )
                         .setStyle(ButtonStyle.Secondary)
                         .setEmoji('🎁')

@@ -26,7 +26,7 @@ module.exports = {
                 ),
         ),
 
-    async execute(ineraction) {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ ephemeral: false })
 
@@ -58,7 +58,7 @@ module.exports = {
                     Lang.trans(interaction, 'error.title.unverified'),
                     Lang.trans(interaction, 'error.description.unverified'),
                     {
-                        edit: tre,
+                        edit: true,
                     },
                 )
             }
@@ -71,7 +71,7 @@ module.exports = {
                     { accountDashboard: process.env.DASHBOARD_URL },
                     {
                         edit: tru,
-                    ,
+                    },
                 )
             }
         }
@@ -82,8 +82,8 @@ module.exports = {
                 Lang.trans(interaction, 'error.title.insufficient_funds'),
                 Lang.trans(interaction, 'error.description.insufficient_funds'),
                 {
-                    edit: true
-                }
+                    edit: true,
+                },
             )
         }
 
@@ -136,7 +136,7 @@ module.exports = {
             // Only selected role holders
             if (role) {
                 const author = await interaction.guild.members.fetch(
-                    message.author.id
+                    message.author.i,
                 )
                 if (!author.roles.cache.find((r) => r.id === role.id)) {
                     continue
@@ -166,11 +166,11 @@ module.exports = {
                 to,
                 token,
                 amount,
-                role
+                role,
             )
         } else {
             const noMembersEmbed = new EmbedBuilder().setDescription(
-                'No members found to snow upon'
+                'No members found to snow upon,
             )
 
             return await interaction.editReply({ embeds: [noMembersEmbed] })

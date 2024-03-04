@@ -20,7 +20,7 @@ module.exports = {
 
     async execute(interaction) {
         // Defer reply
-        await interacion.deferReply({ ephemeral: true })
+        await interaction.deferReply({ ephemeral: true })
 
         // Options
         const enabled = interaction.options.getBoolean('enabled')
@@ -39,8 +39,8 @@ module.exports = {
                 null,
                 {
                     code: 6,
-                    edit: tru,
-                ,
+                    edit: true,
+                },
             )
         }
 
@@ -49,8 +49,8 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'enable_dms.title'))
             .setDescription(
                 Lang.trans(interaction, 'enable_dms.description', {
-                    enabled: enabled ? 'enabled' : 'disabled'
-                })
+                    enabled: enabled ? 'enabled' : 'disabled,
+                }),
             )
 
         await interaction.editReply({ embeds: [embed] })

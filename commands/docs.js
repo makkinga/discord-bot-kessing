@@ -45,11 +45,11 @@ module.exports = {
                     new EmbedBuilder()
                         .setTitle('No answers found')
                         .setDescription(
-                            'No answers were found for your question. Please try again.,
+                            'No answers were found for your question. Please try again.',
                         )
                         .setColor('#ff0000')
-                        .toJSON(,
-                ,
+                        .toJSON(),
+                ],
             })
         }
 
@@ -58,18 +58,18 @@ module.exports = {
             disclaimerEmbed,
             docAnswerEmbed,
             devAnswerEmbed,
-            FollowupQuestions
+            FollowupQuestions,
         } = await this.createReply(interaction, question, docAnswer, devAnswer)
 
         // Send the embed
         if (FollowupQuestions.length) {
             await interaction.editReply({
                 embeds: [disclaimerEmbed, docAnswerEmbed, devAnswerEmbed],
-                components: [FollowupQuestions]
+                components: [FollowupQuestions],
             })
         } else {
             await interaction.editReply({
-                embeds: [disclaimerEmbed, docAnswerEmbed, devAnswerEmbed]
+                embeds: [disclaimerEmbed, docAnswerEmbed, devAnswerEmbed,
             })
         }
 
@@ -106,8 +106,8 @@ module.exports = {
                                 'No answers were found for your question. Please try again.'
                             )
                             .setColor('#ff0000')
-                            .toJSON()
-                    ]
+                            .toJSON(),
+                    ],
                 })
             }
 
@@ -142,13 +142,13 @@ module.exports = {
                 'https://api.gitbook.com/v1/spaces/-MfUam-1n-JpNfAIQQey/search/ask',
                 {
                     query: question
-                }
+                },
             )
             devAnswer = await axios.post(
                 'https://api.gitbook.com/v1/spaces/lZLlRJsOJCqm10zUsKr6/search/ask',
                 {
                     query: question
-                }
+                },
             )
         } catch (error) {
             await Log.error(interaction, 7, error)
@@ -160,7 +160,7 @@ module.exports = {
                 {
                     code: 7,
                     edit: true
-                }
+                },
             )
         }
 

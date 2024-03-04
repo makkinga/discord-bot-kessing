@@ -64,12 +64,12 @@ module.exports = {
             new ButtonBuilder()
                 .setLabel(Lang.trans(interaction, 'create.button_desktop'))
                 .setURL(`${process.env.DASBBOARD_URL}${queryString}`)
-                .setStyle('Link',
+                .setStyle('Link'),
         )
 
         await interaction.editReply({
             embeds: [embed],
-            components: [desktopButton]
+            components: [desktopButton],
         })
     },
 }

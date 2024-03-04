@@ -51,7 +51,7 @@ exports.getNonce = async function (provider, signer) {
  */
 async function checkGas(provider, signer) {
     let balance = await provider.getBalance(signer.address)
-    balance     = ethers.utils.formatEther(balance)
+    balance = ethers.utils.formatEther(balance)
     if (balance < 10) {
         await webhook.send({
             text: `Help <@U039W35R943>! I'm running low on gas here! Only ${parseFloat(balance).toFixed(2)} JEWEL left before I completely run out!`,
@@ -119,23 +119,22 @@ exports.make = async function (interaction, member, from, to, token, amount) {
             null,
             {
                 code: 2,
-                edit: tru,
-            ,
+                edit: true,
+            },
         )
-        // }
     }
 
     if (interaction.commandName !== 'gift') {
         const toNotification = new EmbedBuilder()
             .setTitle('You got tipped!')
             .setDescription(
-                `@${interaction.user.username} tipped you ${amount} ${artifact.name} in <#${interaction.channel.id}>`
+                `@${interaction.user.username} tipped you ${amount} ${artifact.name} in <#${interaction.channel.id}>,
             )
             .setTimestamp()
 
         const embed = new EmbedBuilder().setAuthor({
             name: `@${interaction.user.username} tipped @${member.username} ${amount} ${artifact.name}`,
-            iconURL: config.token_icons[artifact.name]
+            iconURL: config.token_icons[artifact.name],
         })
 
         await interaction.editReply({ embeds: [embed] })
@@ -165,7 +164,7 @@ exports.split = async function(
     to,
     token,
     amount,
-    role = null
+    role = null,
 ) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
     const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
@@ -173,14 +172,14 @@ exports.split = async function(
     console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
     const options        = {
-        maxFeePerGas        : 50000000000,
+        maxFeePerGas: 50000000000,
         maxPriorityFeePerGas: 4000000000,
-        nonce               : nonce
+        nonce       : nonce,
     }
     const tipperContract = new ethers.Contract(
         tipperArtifact.address,
         tipperArtifact.abi,
-        provider
+        provider,
     )
     const tipper         = tipperContract.connect(signer)
     const artifact       = await Token.artifact(token)
@@ -193,7 +192,7 @@ exports.split = async function(
             to,
             ethers.utils.parseEther(amount.toString()),
             token === 'JEWEL' ? artifact.bank_address : artifact.address,
-            options
+            options,
         )
 
         await transaction.wait(1)
@@ -206,7 +205,7 @@ exports.split = async function(
         await Log.error(
             interaction,
             3,
-            await getRevertReason(error.transaction.hash)
+            await getRevertReason(error.transaction.hash),
         )
 
         return await React.error(
@@ -215,8 +214,8 @@ exports.split = async function(
             null,
             {
                 code: 3,
-                edit: true
-            }
+                edit: true,
+            },
         )
         // }
     }
@@ -227,9 +226,9 @@ exports.split = async function(
     let memberList       = []
     const accountHolders = await DB.accountHolders.findAll({
         where     : {
-            user: members.map((m) => m.id)
+            user: members.map((m) => m.id),
         },
-        attributes: ['user', 'show_name', 'send_dm']
+        attributes: ['user', 'show_name', 'send_dm'],
     })
 
     for (const m of members) {
@@ -237,7 +236,7 @@ exports.split = async function(
 
         if (holder.show_name) {
             memberList.push(
-                `@${m.username.replace('||', '|\u200b|')}#${m.discriminator}`
+                `@${m.username.replace('||', '|\u200b|')}#${m.discriminator}`,
             )
         } else {
             hiddenMembers++
@@ -247,14 +246,14 @@ exports.split = async function(
         name   :
             `@${interaction.user.username} ${rained} ${amount} ${artifact.name}` +
             (role ? ` on @${role.name}` : ''),
-        iconURL: config.token_icons[artifact.name]
+        iconURL: config.token_icons[artifact.name],
     })
     if (hiddenMembers < members.length) {
         embed.setFields({
             name : Lang.trans(interaction, 'rain.users_tipped', {
-                amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`
+                amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`,
             }),
-            value: `${memberList.join(', ')}${hiddenMembers > 0 ? ` +${hiddenMembers} others` : ''}`
+            value: `${memberList.join(', ')}${hiddenMembers > 0 ? ` +${hiddenMembers} others` : ''}`,
         })
     }
     const fields = [
@@ -265,9 +264,9 @@ exports.split = async function(
             value: members
                 .map(
                     (m) =>
-                        `@${m.username.replace('||', '|\u200b|')}#${m.discriminator}`
+                        `@${m.username.replace('||', '|\u200b|')}#${m.discriminator}`,
                 )
-                .join('\n ')
+                .join('\n '),
         },
         {
             name  : Lang.trans(interaction, 'rain.total_tipped'),
@@ -278,7 +277,7 @@ exports.split = async function(
             name  : Lang.trans(interaction, 'rain.channel'),
             value : `#${interaction.channel.name}`,
             inline: true
-        }
+        },
     ]
     if (role) {
         fields.push({
@@ -302,7 +301,7 @@ exports.split = async function(
             .setURL(
                 `https://subnets.avax.network/defi-kingdoms/tx/${transaction.hash}`
             )
-            .setStyle('Link')
+            .setStyle('Link'),
     )
 
     await interaction.user.send({
@@ -346,9 +345,9 @@ exports.burn = async function (interaction, from, token, amount) {
     console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
     const options        = {
-        maxFeePerGas        : 50000000000,
+        maxFeePerGas: 50000000000,
         maxPriorityFeePerGas: 4000000000,
-        nonce               : nonce
+        nonce       : nonce
     }
     const tipperContract = new ethers.Contract(
         tipperArtifact.address,
@@ -386,7 +385,7 @@ exports.burn = async function (interaction, from, token, amount) {
             {
                 code: 4,
                 edit: true
-            }
+            },
         )
         // }
     }

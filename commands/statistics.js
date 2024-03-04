@@ -28,31 +28,31 @@ module.exports = {
 
     async execute(interaction) {
         // ptions
-        cont selectedToken = interaction.options.getString('token')
+        const selectedToken = interaction.options.getString('token')
 
         // Defer reply
         await interaction.deferReply({
             ephemeral:
-                interaction.channel.id !== config.price_discussion_channel
+                interaction.channel.id !== config.price_discussion_channel,
         })
 
         // Gather data
-        const jewelInfo   = await Token.jewelInfo()
+        const jewelInfo = await Token.jewelInfo()
         const crystalInfo = await Token.crystalInfo()
-        const jadeInfo    = await Token.jadeInfo()
-        const tokens      = {
-            JEWEL  : {
-                usd : parseFloat(jewelInfo.priceUsd).toFixed(3),
-                data: jewelInfo
+        const jadeInfo = await Token.jadeInfo()
+        const tokens = {
+            JEWEL: {
+                usd: parseFloat(jewelInfo.priceUsd).toFixed(3),
+                data: jewelInfo,
             },
             CRYSTAL: {
-                usd : parseFloat(crystalInfo.priceUsd).toFixed(3),
-                data: crystalInfo
+                usd: parseFloat(crystalInfo.priceUsd).toFixed(3),
+                data: crystalInfo,
             },
-            JADE   : {
-                usd : parseFloat(jadeInfo.priceUsd).toFixed(3),
-                data: jadeInfo
-            }
+            JADE: {
+                usd: parseFloat(jadeInfo.priceUsd).toFixed(3),
+                data: jadeInf,
+            ,
         }
 
         const fields = []
@@ -109,7 +109,7 @@ module.exports = {
                         '```' +
                         table(tokenTableRows) +
                         '``` ' +
-                        `[${Lang.trans(interaction, 'statistics.chart_link_label', { symbol: symbol })}](${token.data.url} '${Lang.trans(interaction, 'statistics.chart_link_title', { symbol: symbol })}')`
+                        `[${Lang.trans(interaction, 'statistics.chart_link_label', { symbol: symbol })}](${token.data.url} '${Lang.trans(interaction, 'statistics.chart_link_title', { symbol: symbol })}')`,
                 })
             }
         } else {

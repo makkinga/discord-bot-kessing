@@ -56,8 +56,8 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'ban.title.member_banned'))
             .setDescription(
                 Lang.trans(interaction, 'ban.description.member_banned', {
-                    member: memberMentio,
-                },
+                    member: memberMention,
+                }),
             )
 
         await interaction.editReply({ embeds: [embed] })

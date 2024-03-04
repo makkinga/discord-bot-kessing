@@ -64,13 +64,13 @@ module.exports = {
             new ButtonBuilder()
                 .setLabel('Request a feature')
                 .setURL('https://discord.gg/fHD8RWTdgw')
-                .setStyle('Link',
+                .setStyle('Link'),
         )
 
         await interaction.editReply({
-            embeds    : [embed],
+            embeds: [embed],
             components: [supportButton, bugButton, featureButton],
-            ephemeral : true
+            ephemeral: true,
         })
     },
 }

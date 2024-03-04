@@ -26,21 +26,21 @@ module.exports = {
                     { name: 'CRYSTAL', value: 'CRYSTAL' },
                     { name: 'JEWEL', value: 'JEWEL' },
                 ),
-       ),
+        ),
 
-    asyc execute(interaction) {
+    async execute(interaction) {
         // Defer reply
         await interaction.deferReply({ ephemeral: false })
 
         // Options
-        const amount       = interaction.options.getNumber('amount')
-        const member       = interaction.options.getUser('member')
-        const token        = interaction.options.getString('token') ?? 'CRYSTAL'
-        const artifact     = await Token.artifact(token)
+        const amount = interaction.options.getNumber('amount')
+        const member = interaction.options.getUser('member')
+        const token = interaction.options.getString('token') ?? 'CRYSTAL'
+        const artifact = await Token.artifact(token)
         const tokenAddress =
-                  token === 'JEWEL' ? artifact.bank_address : artifact.address
-        const from         = await Account.address(interaction.user.id)
-        const to           = await Account.address(member.id)
+            token === 'JEWEL' ? artifact.bank_address : artifact.address
+        const from = await Account.address(interaction.user.id)
+        const to = await Account.address(member.id)
 
         // Checks
         if (!(await Account.canTip(from))) {
@@ -50,8 +50,8 @@ module.exports = {
                     Lang.trans(interaction, 'error.title.no_account'),
                     Lang.trans(interaction, 'error.description.no_account'),
                     {
-                        edit: true
-                    }
+                        edit: true,
+                    },
                 )
             }
 
@@ -61,8 +61,8 @@ module.exports = {
                     Lang.trans(interaction, 'error.title.unverified'),
                     Lang.trans(interaction, 'error.description.unverified'),
                     {
-                        edit: true
-                    }
+                        edit: tru,
+                    },
                 )
             }
 
@@ -73,8 +73,8 @@ module.exports = {
                     Lang.trans(interaction, 'error.description.banned'),
                     { accountDashboard: process.env.DASHBOARD_URL },
                     {
-                        edit: true
-                    }
+                        edit: true,
+                    },
                 )
             }
         }
@@ -87,11 +87,11 @@ module.exports = {
                     Lang.trans(
                         interaction,
                         'error.description.unable_to_tip.no_account',
-                        { username: member.username }
+                        { username: member.username ,
                     ),
                     {
                         edit: true
-                    }
+                    },
                 )
             }
 
@@ -106,7 +106,7 @@ module.exports = {
                     ),
                     {
                         edit: true
-                    }
+                    },
                 )
             }
 
@@ -121,7 +121,7 @@ module.exports = {
                     ),
                     {
                         edit: true
-                    }
+                    },
                 )
             }
         }
@@ -133,7 +133,7 @@ module.exports = {
                 Lang.trans(interaction, 'error.description.insufficient_funds'),
                 {
                     edit: true
-                }
+                },
             )
         }
 

@@ -70,19 +70,19 @@ module.exports = {
             new ButtonBuilder()
                 .setLabel(Lang.trans(interaction, 'balance.button_mobile'))
                 .setURL(process.env.DASBBOARD_DEEPLINK_URL)
-                .setStyle('Link',
+                .setStyle('Link'),
         )
 
         const desktopButton = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
                 .setLabel(Lang.trans(interaction, 'balance.button_desktop'))
                 .setURL(process.env.DASBBOARD_URL)
-                .setStyle('Link')
+                .setStyle('Link'),
         )
 
         await interaction.editReply({
-            embeds    : [toNotification],
-            components: [mobileButton, desktopButton]
+            embeds: [toNotification],
+            components: [mobileButton, desktopButton],
         })
     },
 }

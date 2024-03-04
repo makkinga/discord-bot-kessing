@@ -5,14 +5,14 @@ dotenv.config()
 const bankArtifact = require(
     `../${process.env.NODE_ENV === 'local' ? 'artifacts-local' : 'artifacts'}/bank.json`,
 )
-cnst provider     = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-const signer       = new ethers.Wallet(process.env.BOT_PKEY, provider)
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
+const signer = new ethers.Wallet(process.env.BOT_PKEY, provider)
 const bankContract = new ethers.Contract(
     bankArtifact.address,
     bankArtifact.abi,
     provider,
 )
-cnst bank         = bankContract.connect(signer)
+const bank         = bankContract.connect(signer)
 
 /**
  * Returns the transaction options
@@ -23,7 +23,7 @@ async function getOptions() {
     return {
         gasPrice: await provider.getGasPrice(),
         gasLimit: 3000000,
-        nonce: await transaction.getNonce(provider, signer)
+        nonce: await transaction.getNonce(provider, signer),
     }
 }
 
@@ -130,8 +130,8 @@ exports.hasBalance = async function (address, amount, token) {
     return (
         parseFloat(
             ethers.utils.formatEther(
-                await bank.getAccountBalance(address, token)
-            )
+                await bank.getAccountBalance(address, token,
+            ),
         ) >= amount
     )
 }

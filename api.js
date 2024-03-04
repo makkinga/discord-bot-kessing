@@ -64,8 +64,8 @@ app.post('/verify-account', async function (request, response) {
             response.write(
                 JSON.stringify({
                     success: false,
-                    message: 'Account already verified,
-                },
+                    message: 'Account already verified',
+                }),
             )
             response.end()
 
@@ -80,7 +80,7 @@ app.post('/verify-account', async function (request, response) {
                 address: address,
                 role: false,
                 show_name: true,
-                send_dm: false
+                send_dm: fals,
             })
 
             response.writeHead(200, { 'Content-Type': 'application/json' })
@@ -91,8 +91,8 @@ app.post('/verify-account', async function (request, response) {
             response.write(
                 JSON.stringify({
                     success: false,
-                    message: `Invalid id "${request.body['id']}"`
-                })
+                    message: `Invalid id "${request.body['id']}"`,
+                }),
             )
             response.end()
         }
@@ -101,7 +101,7 @@ app.post('/verify-account', async function (request, response) {
 
         response.writeHead(500, { 'Content-Type': 'application/json' })
         response.write(
-            JSON.stringify({ success: false, message: 'An error occurred' })
+            JSON.stringify({ success: false, message: 'An error occurred' },
         )
         response.end()
     }

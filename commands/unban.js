@@ -43,7 +43,7 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'unban.title.member_unbanned'))
             .setDescription(
                 Lang.trans(interaction, 'unban.description.member_unbanned', {
-                    member: memberMenton,
+                    member: memberMention,
                 }),
             )
 

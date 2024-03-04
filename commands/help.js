@@ -42,7 +42,7 @@ module.exports = {
             })
         } else {
             await interaction.editReply({
-                embeds: [disclaimerEmbed, answerEmbed,
+                embeds: [disclaimerEmbed, answerEmbed],
             })
         }
 
@@ -51,7 +51,7 @@ module.exports = {
             i.customId.startsWith('followup:') &&
             i.user.id === interaction.user.id
         const collector = interaction.channel.createMessageComponentCollector({
-            filter
+            filte,
         })
 
         collector.on('collect', async (i) => {
@@ -68,14 +68,14 @@ module.exports = {
             const { answerEmbed, FollowupQuestions } = await this.createReply(
                 i,
                 followup,
-                answer
+                answer,
             )
 
             // Send the embed
             if (FollowupQuestions.length) {
                 await i.editReply({
                     embeds: [answerEmbed],
-                    components: [FollowupQuestions]
+                    components: [FollowupQuestions,
                 })
             } else {
                 await i.editReply({ embeds: [answerEmbed] })
@@ -96,7 +96,7 @@ module.exports = {
                 'https://api.gitbook.com/v1/spaces/SrNx1aAiTRCGjylKXiu1/search/ask',
                 {
                     query: question
-                }
+                },
             )
         } catch (error) {
             await Log.error(interaction, 7, error)
@@ -108,7 +108,7 @@ module.exports = {
                 {
                     code: 7,
                     edit: true
-                }
+                },
             )
         }
     },

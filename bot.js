@@ -11,16 +11,16 @@ dotenv.config()
 
 // Create a new client instance
 const client = new Client({
-    intents : [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
     partials: [Partials.Channel],
 })
 
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
-    console.log('Ready!)
+    console.log('Ready!')
 })
 
-client.commands    = new Collection()
+client.commands = new Collection()
 const commandFiles = fs
     .readdirSync('./commands')
     .filter((file) => file.endsWith('.js'))
@@ -47,8 +47,8 @@ client.on('interactionCreate', async (interaction) => {
             Lang.trans(interaction, 'error.description.error_occurred'),
             {
                 code: 1,
-                edit: true
-            }
+                edit: true,
+            },
         )
     }
 })
@@ -76,7 +76,7 @@ let jewelPriceUsd,
     crystalPriceChange,
     jadePriceUsd,
     jadePriceChange = 0
-let presence        = 'jewel'
+let presence = 'jewel'
 
 async function setPresence() {
     if (presence === 'jewel') {
@@ -84,9 +84,9 @@ async function setPresence() {
             activities: [
                 {
                     name: `1JE at $${jewelPriceUsd} (${jewelPriceChange}%)`,
-                    type: 3
-                }
-            ]
+                    type: 3,
+                },
+            ],
         })
 
         presence = 'crystal'
@@ -95,9 +95,9 @@ async function setPresence() {
             activities: [
                 {
                     name: `1CR at $${crystalPriceUsd} (${crystalPriceChange}%)`,
-                    type: 3
-                }
-            ]
+                    type: ,
+                },
+            ],
         })
 
         presence = 'jade'
@@ -107,8 +107,8 @@ async function setPresence() {
                 {
                     name: `1JA at $${jadePriceUsd} (${jadePriceChange}%)`,
                     type: 3
-                }
-            ]
+                },
+            ],
         })
 
         presence = 'jewel'
@@ -148,7 +148,7 @@ async function accountRoles() {
 
     for (const account of accounts) {
         try {
-            const role   = client.guilds.cache
+            const role = client.guilds.cache
                 .get(process.env.GUILD_ID)
                 .roles.cache.find(
                     (role) => role.id === process.env.ACCOUNT_ROLE
