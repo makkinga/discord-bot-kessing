@@ -69,7 +69,7 @@ module.exports = {
             })
         } else {
             await interaction.editReply({
-                embeds: [disclaimerEmbed, docAnswerEmbed, devAnswerEmbed,
+                embeds: [disclaimerEmbed, docAnswerEmbed, devAnswerEmbed],
             })
         }
 
@@ -78,7 +78,7 @@ module.exports = {
             i.customId.startsWith('followup:') &&
             i.user.id === interaction.user.id
         const collector = interaction.channel.createMessageComponentCollector({
-            filter
+            filter,
         })
 
         collector.on('collect', async (i) => {
@@ -103,7 +103,7 @@ module.exports = {
                         new EmbedBuilder()
                             .setTitle('No answers found')
                             .setDescription(
-                                'No answers were found for your question. Please try again.'
+                                'No answers were found for your question. Please try again.',
                             )
                             .setColor('#ff0000')
                             .toJSON(),
@@ -119,7 +119,7 @@ module.exports = {
             if (FollowupQuestions.length) {
                 await i.editReply({
                     embeds: [docAnswerEmbed, devAnswerEmbed],
-                    components: [FollowupQuestions]
+                    components: [FollowupQuestions],
                 })
             } else {
                 await i.editReply({ embeds: [docAnswerEmbed, devAnswerEmbed] })
@@ -141,13 +141,13 @@ module.exports = {
             docAnswer = await axios.post(
                 'https://api.gitbook.com/v1/spaces/-MfUam-1n-JpNfAIQQey/search/ask',
                 {
-                    query: question
+                    query: question,
                 },
             )
             devAnswer = await axios.post(
                 'https://api.gitbook.com/v1/spaces/lZLlRJsOJCqm10zUsKr6/search/ask',
                 {
-                    query: question
+                    query: question,
                 },
             )
         } catch (error) {
@@ -159,7 +159,7 @@ module.exports = {
                 null,
                 {
                     code: 7,
-                    edit: true
+                    edit: true,
                 },
             )
         }
@@ -182,7 +182,7 @@ module.exports = {
             .setColor('Yellow')
             .setTitle('⚠️ Disclaimer')
             .setDescription(
-                'Please note that this AI generated answer may be incorrect or outdated. Always verify any information before making financial decisions.'
+                'Please note that this AI generated answer may be incorrect or outdated. Always verify any information before making financial decisions.',
             )
 
         // Create the doc answer embed
@@ -246,7 +246,7 @@ module.exports = {
             disclaimerEmbed,
             docAnswerEmbed,
             devAnswerEmbed,
-            FollowupQuestions
+            FollowupQuestions,
         }
     },
 }

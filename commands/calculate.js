@@ -39,7 +39,7 @@ module.exports = {
 
     async execute(interaction) {
         // Defer reply
-        await interacion.deferReply({ ephemeral: false })
+        await interaction.deferReply({ ephemeral: false })
 
         // Options
         let amount = interaction.options.getNumber('amount')

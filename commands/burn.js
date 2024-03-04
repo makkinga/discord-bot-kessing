@@ -53,7 +53,7 @@ module.exports = {
                     Lang.trans(interaction, 'error.title.unverified'),
                     Lang.trans(interaction, 'error.description.unverified'),
                     {
-                        edit: tru,
+                        edit: true,
                     },
                 )
             }
@@ -66,7 +66,7 @@ module.exports = {
                         accountDashboard: process.env.DASHBOARD_URL,
                     }),
                     {
-                        edit: tru,
+                        edit: true,
                     },
                 )
             }

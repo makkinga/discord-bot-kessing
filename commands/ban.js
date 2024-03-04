@@ -40,10 +40,10 @@ module.exports = {
                 interaction,
                 Lang.trans(interaction, 'ban.title.no_active_account'),
                 Lang.trans(interaction, 'ban.description.no_active_account', {
-                    member: memberMenton,
+                    member: memberMention,
                 }),
                 {
-                    edit: tue,
+                    edit: true,
                 },
             )
         }

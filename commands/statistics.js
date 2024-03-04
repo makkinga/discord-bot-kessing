@@ -51,8 +51,8 @@ module.exports = {
             },
             JADE: {
                 usd: parseFloat(jadeInfo.priceUsd).toFixed(3),
-                data: jadeInf,
-            ,
+                data: jadeInfo,
+            },
         }
 
         const fields = []
@@ -61,7 +61,7 @@ module.exports = {
         if (!selectedToken) {
             for (const [symbol, token] of Object.entries(tokens)) {
                 const tokenTableRows = []
-                const priceChange    = !!Object.keys(token.data.priceChange).length
+                const priceChange = !!Object.keys(token.data.priceChange).length
 
                 tokenTableRows.push(
                     [
@@ -69,42 +69,42 @@ module.exports = {
                         '.',
                         Lang.trans(interaction, 'statistics.1h'),
                         '.',
-                        Lang.trans(interaction, 'statistics.24h')
+                        Lang.trans(interaction, 'statistics.24h'),
                     ],
                     [
                         Lang.trans(interaction, 'statistics.price_change'),
                         '|',
                         `${parseFloat(priceChange ? token.data.priceChange.h1 : 0).toFixed(2)}%`,
                         '|',
-                        `${parseFloat(priceChange ? token.data.priceChange.h24 : 0).toFixed(2)}%`
+                        `${parseFloat(priceChange ? token.data.priceChange.h24 : 0).toFixed(2)}%`,
                     ],
                     [
                         Lang.trans(interaction, 'statistics.buys'),
                         '|',
                         token.data.txns.h1.buys,
                         '|',
-                        token.data.txns.h24.buys
+                        token.data.txns.h24.buys,
                     ],
                     [
                         Lang.trans(interaction, 'statistics.sells'),
                         '|',
                         token.data.txns.h1.sells,
                         '|',
-                        token.data.txns.h24.sells
+                        token.data.txns.h24.sells,
                     ],
                     [
                         Lang.trans(interaction, 'statistics.volume'),
                         '|',
                         `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h1).toFixed(0))}`,
                         '|',
-                        `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h24).toFixed(0))}`
+                        `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h24).toFixed(0))}`,
                     ],
                 )
 
                 const arrow = token.data.priceChange.h1 > 0 ? '↗️' : '↘️'
 
                 fields.push({
-                    name : `${arrow} ${symbol} $${token.usd}`,
+                    name: `${arrow} ${symbol} $${token.usd}`,
                     value:
                         '```' +
                         table(tokenTableRows) +
@@ -123,74 +123,74 @@ module.exports = {
                     '.',
                     Lang.trans(interaction, 'statistics.1h'),
                     '.',
-                    Lang.trans(interaction, 'statistics.24h')
+                    Lang.trans(interaction, 'statistics.24h'),
                 ],
                 [
                     Lang.trans(interaction, 'statistics.price_change'),
                     '|',
                     `${parseFloat(token.data.priceChange.h1).toFixed(2)}%`,
                     '|',
-                    `${parseFloat(token.data.priceChange.h24).toFixed(2)}%`
+                    `${parseFloat(token.data.priceChange.h24).toFixed(2)}%`,
                 ],
                 [
                     Lang.trans(interaction, 'statistics.buys'),
                     '|',
                     token.data.txns.h1.buys,
                     '|',
-                    token.data.txns.h24.buys
+                    token.data.txns.h24.buys,
                 ],
                 [
                     Lang.trans(interaction, 'statistics.sells'),
                     '|',
                     token.data.txns.h1.sells,
                     '|',
-                    token.data.txns.h24.sells
+                    token.data.txns.h24.sells,
                 ],
                 [
                     Lang.trans(interaction, 'statistics.volume'),
                     '|',
                     `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h1).toFixed(0))}`,
                     '|',
-                    `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h24).toFixed(0))}`
+                    `$${new Intl.NumberFormat().format(parseFloat(token.data.volume.h24).toFixed(0))}`,
                 ],
             )
 
             const arrow = token.data.priceChange.h1 > 0 ? '↗️' : '↘️'
 
             fields.push({
-                name : `${arrow} ${selectedToken} $${token.usd}`,
-                value: '```' + table(tokenTableRows) + '```'
+                name: `${arrow} ${selectedToken} $${token.usd}`,
+                value: '```' + table(tokenTableRows) + '```',
             })
 
             // Make screenshot of the chart
-            const url        = `${token.data.url}?embed=1&trades=0&info=0`
+            const url = `${token.data.url}?embed=1&trades=0&info=0`
             // const url        = 'https://dexscreener.com/bsc/0x0f8e31ce605f225c336dead35304d649ae8fad04?embed=1&trades=0&info=0'
-            fileName         = `${moment().unix()}.png`
-            filePath         = `chartscreens/${fileName}`
+            fileName = `${moment().unix()}.png`
+            filePath = `chartscreens/${fileName}`
             const Screenshot = async () => {
                 const browser = await puppeteer.launch({
                     headless: true,
-                    args: ['--no-sandbox', '--disable-setuid-sandbox']
+                    args: ['--no-sandbox', '--disable-setuid-sandbox'],
                 })
-                const page    = await browser.newPage()
+                const page = await browser.newPage()
                 await page.goto(url)
                 await page.setUserAgent(
-                    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+                    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36',
                 )
 
                 const elementHandle = await page.waitForSelector(
-                    'div#tv-chart-container iframe'
+                    'div#tv-chart-container iframe',
                 )
-                const frame         = await elementHandle.contentFrame()
+                const frame = await elementHandle.contentFrame()
 
                 await frame.waitForSelector('div[data-value="240"]', {
-                    visible: true
+                    visible: true,
                 })
                 await frame.click('div[data-value="240"]')
                 await frame.click('div[data-value="candle"]')
 
                 await frame.waitForFunction(
-                    'document.querySelector(\'div[class*="intervalTitle"]\').textContent === \'4h\''
+                    "document.querySelector('div[class*=\"intervalTitle\"]').textContent === '4h'",
                 )
 
                 await page.setViewport({
@@ -199,7 +199,7 @@ module.exports = {
                 })
                 await page.screenshot({
                     path: filePath,
-                    clip: { x: 55, y: 40, width: 1300, height: 700 }
+                    clip: { x: 55, y: 40, width: 1300, height: 700 },
                 })
                 await page.close()
                 await browser.close()
@@ -208,15 +208,15 @@ module.exports = {
             await Screenshot()
 
             const buffer = await fs.readFile(filePath)
-            file         = new AttachmentBuilder(buffer, { name: fileName })
+            file = new AttachmentBuilder(buffer, { name: fileName })
         }
 
         const embed = new EmbedBuilder()
             .setFields(fields)
             .setTimestamp()
             .setFooter({
-                text   : Lang.trans(interaction, 'statistics.footer'),
-                iconURL: 'https://dexscreener.com/favicon.png'
+                text: Lang.trans(interaction, 'statistics.footer'),
+                iconURL: 'https://dexscreener.com/favicon.png',
             })
 
         if (selectedToken) {

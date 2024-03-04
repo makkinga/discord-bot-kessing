@@ -12,7 +12,7 @@ const bankContract = new ethers.Contract(
     bankArtifact.abi,
     provider,
 )
-const bank         = bankContract.connect(signer)
+const bank = bankContract.connect(signer)
 
 /**
  * Returns the transaction options
@@ -121,18 +121,16 @@ exports.unban = async function (address) {
 /**
  * Returns whether the account has enough balance
  *
- * @returns {Promise<boolean>}
+ * @returns {Promise<number>}
  * @param address
  * @param amount
  * @param token
  */
 exports.hasBalance = async function (address, amount, token) {
-    return (
-        parseFloat(
-            ethers.utils.formatEther(
-                await bank.getAccountBalance(address, token,
-            ),
-        ) >= amount
+    return parseFloat(
+        ethers.utils.formatEther(
+            await bank.getAccountBalance(address, token),
+        ) >= amount,
     )
 }
 
@@ -145,7 +143,7 @@ exports.hasBalance = async function (address, amount, token) {
  */
 exports.balance = async function (address, token) {
     return parseFloat(
-        ethers.utils.formatEther(await bank.getAccountBalance(address, token))
+        ethers.utils.formatEther(await bank.getAccountBalance(address, token)),
     ).toFixed(4)
 }
 
@@ -158,7 +156,7 @@ exports.balance = async function (address, token) {
  */
 exports.tipped = async function (address, token) {
     return parseFloat(
-        ethers.utils.formatEther(await bank.getAccountTipped(address, token))
+        ethers.utils.formatEther(await bank.getAccountTipped(address, token)),
     ).toFixed(4)
 }
 
@@ -171,7 +169,7 @@ exports.tipped = async function (address, token) {
  */
 exports.received = async function (address, token) {
     return parseFloat(
-        ethers.utils.formatEther(await bank.getAccountReceived(address, token))
+        ethers.utils.formatEther(await bank.getAccountReceived(address, token)),
     ).toFixed(4)
 }
 
@@ -184,6 +182,6 @@ exports.received = async function (address, token) {
  */
 exports.burned = async function (address, token) {
     return parseFloat(
-        ethers.utils.formatEther(await bank.getAccountBurned(address, token))
+        ethers.utils.formatEther(await bank.getAccountBurned(address, token)),
     ).toFixed(4)
 }

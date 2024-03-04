@@ -75,7 +75,7 @@ module.exports = {
             if (FollowupQuestions.length) {
                 await i.editReply({
                     embeds: [answerEmbed],
-                    components: [FollowupQuestions,
+                    components: [FollowupQuestions],
                 })
             } else {
                 await i.editReply({ embeds: [answerEmbed] })
@@ -95,7 +95,7 @@ module.exports = {
             return await axios.post(
                 'https://api.gitbook.com/v1/spaces/SrNx1aAiTRCGjylKXiu1/search/ask',
                 {
-                    query: question
+                    query: question,
                 },
             )
         } catch (error) {
@@ -107,7 +107,7 @@ module.exports = {
                 null,
                 {
                     code: 7,
-                    edit: true
+                    edit: true,
                 },
             )
         }
@@ -127,7 +127,7 @@ module.exports = {
             .setColor('Yellow')
             .setTitle('⚠️ Disclaimer')
             .setDescription(
-                'Please note that this AI generated answer may be incorrect or outdated. Always verify any information before making financial decisions.'
+                'Please note that this AI generated answer may be incorrect or outdated. Always verify any information before making financial decisions.',
             )
 
         // Create the answer embed

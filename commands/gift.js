@@ -76,7 +76,7 @@ module.exports = {
                     Lang.trans(interaction, 'error.title.no_account'),
                     Lang.trans(interaction, 'error.description.no_account'),
                     {
-                        edit: tru,
+                        edit: true,
                     },
                 )
             }
@@ -112,7 +112,7 @@ module.exports = {
                 Lang.trans(interaction, 'error.title.insufficient_funds'),
                 Lang.trans(interaction, 'error.description.insufficient_funds'),
                 {
-                    edit: tru,
+                    edit: true,
                 },
             )
         }
@@ -127,7 +127,7 @@ module.exports = {
                 Lang.trans(interaction, 'gift.pending_title'),
                 Lang.trans(interaction, 'gift.pending_description'),
                 {
-                    edit: tru,
+                    edit: true,
                 },
             )
         }
@@ -155,7 +155,7 @@ module.exports = {
         await interaction.editReply({
             embeds: [embed],
             components: [button],
-            ephemeral: fals,
+            ephemeral: false,
         })
 
         await DB.pendingGifts.create({
@@ -165,7 +165,7 @@ module.exports = {
         await DB.giftCooldown.create({
             user: interaction.user.id,
             command: true,
-            timestamp: moment().add(10, 'minutes').unix(,
+            timestamp: moment().add(10, 'minutes').unix(),
         })
 
         const collector = interaction.channel.createMessageComponentCollector()
@@ -185,7 +185,7 @@ module.exports = {
                 if (cooldown) {
                     i.reply({
                         content: `${Lang.trans(interaction, 'gift.on_cooldown')} ${moment.unix(cooldown.timestamp).fromNow(true)}`,
-                        ephemeral: true
+                        ephemeral: true,
                     })
                     return
                 } else {
@@ -202,7 +202,7 @@ module.exports = {
                 if (interaction.user.id === i.user.id) {
                     i.reply({
                         content: Lang.trans(interaction, 'gift.self'),
-                        ephemeral: true
+                        ephemeral: true,
                     })
                     return
                 }
@@ -212,9 +212,9 @@ module.exports = {
                         i.reply({
                             content: Lang.trans(
                                 interaction,
-                                'error.description.inactive'
+                                'error.description.inactive',
                             ),
-                            ephemeral: true
+                            ephemeral: true,
                         })
                         return
                     }
@@ -223,9 +223,9 @@ module.exports = {
                         i.reply({
                             content: Lang.trans(
                                 interaction,
-                                'error.description.unverified'
+                                'error.description.unverified',
                             ),
-                            ephemeral: true
+                            ephemeral: true,
                         })
                         return
                     }
@@ -235,9 +235,9 @@ module.exports = {
                             content: Lang.trans(
                                 interaction,
                                 'error.description.banned',
-                                { accountDashboard: process.env.DASHBOARD_URL }
+                                { accountDashboard: process.env.DASHBOARD_URL },
                             ),
-                            ephemeral: true
+                            ephemeral: true,
                         })
                         return
                     }
@@ -256,7 +256,7 @@ module.exports = {
                         Lang.trans(interaction, 'gift.title', {
                             user: interaction.user.username,
                             amount: amount,
-                            symbol: artifact.name
+                            symbol: artifact.name,
                         }),
                     )
                     .setDescription(Lang.trans(interaction, 'gift.description'))
@@ -266,7 +266,7 @@ module.exports = {
                         .setCustomId(`claimed_${timestamp}`)
                         .setLabel(
                             Lang.trans(interaction, 'gift.button_claimed', {
-                                user: i.user.username
+                                user: i.user.username,
                             }),
                         )
                         .setStyle(ButtonStyle.Secondary)
@@ -275,7 +275,7 @@ module.exports = {
                 )
                 await i.update({
                     embeds: [claimedEmbed],
-                    components: [claimedButton]
+                    components: [claimedButton],
                 })
 
                 // Make transaction
@@ -285,12 +285,12 @@ module.exports = {
                     from,
                     to,
                     token,
-                    amount
+                    amount,
                 )
 
                 await DB.pendingGifts.destroy({
                     where: {
-                        author: interaction.user.id
+                        author: interaction.user.id,
                     },
                 })
             }

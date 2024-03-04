@@ -61,7 +61,7 @@ module.exports = {
                     Lang.trans(interaction, 'error.title.unverified'),
                     Lang.trans(interaction, 'error.description.unverified'),
                     {
-                        edit: tru,
+                        edit: true,
                     },
                 )
             }
@@ -87,10 +87,10 @@ module.exports = {
                     Lang.trans(
                         interaction,
                         'error.description.unable_to_tip.no_account',
-                        { username: member.username ,
+                        { username: member.username },
                     ),
                     {
-                        edit: true
+                        edit: true,
                     },
                 )
             }
@@ -102,10 +102,10 @@ module.exports = {
                     Lang.trans(
                         interaction,
                         'error.description.unable_to_tip.unverified',
-                        { username: member.username }
+                        { username: member.username },
                     ),
                     {
-                        edit: true
+                        edit: true,
                     },
                 )
             }
@@ -117,10 +117,10 @@ module.exports = {
                     Lang.trans(
                         interaction,
                         'error.description.unable_to_tip.banned',
-                        { username: member.username }
+                        { username: member.username },
                     ),
                     {
-                        edit: true
+                        edit: true,
                     },
                 )
             }
@@ -132,7 +132,7 @@ module.exports = {
                 Lang.trans(interaction, 'error.title.insufficient_funds'),
                 Lang.trans(interaction, 'error.description.insufficient_funds'),
                 {
-                    edit: true
+                    edit: true,
                 },
             )
         }

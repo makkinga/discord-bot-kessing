@@ -1,5 +1,3 @@
-const dateFns = require('date-fns')
-
 const maleFirstNames = [
     'Dernere',
     'Heremód',
@@ -2002,7 +2000,6 @@ const maleFirstNames = [
     'yilgultael',
     'idrosrial',
 ]
-
 const femaleFirstNames = [
     'Alexandria',
     'Romy',
@@ -6007,7 +6004,19 @@ const lastNames = [
     'Selle',
     'Staelle',
     'Caerlight',
-    "B'zhal'B\'zhalo'O'xin"'O\'xin'M'riso'M\'riso'Y'rhot'Y\'rhotcheh'A'xer"'A\'xer'J'rexe'J\'rexeh'P'xhik'P\'xhike'U'rhom'U\'rhomuh'W'nonu'W\'nonu'J'mhhu'J\'mhhuk'P'lhol'P\'lholih'C'rhax'C\'rhaxa'taoich',
+    "B'zhalo",
+    "O'xin",
+    "M'riso",
+    "Y'rhotcheh",
+    "A'xer",
+    "J'rexeh",
+    "P'xhike",
+    "U'rhomuh",
+    "W'nonu",
+    "J'mhhuk",
+    "P'lholih",
+    "C'rhaxa",
+    'taoich',
     'brill',
     'cas',
     'turío',
@@ -6122,7 +6131,7 @@ exports.calculateRemainingStamina = (hero, currentTime = new Date()) => {
     }
 
     const diffInMilliseconds =
-              hero.staminaFullAt.getTime() - currentTime.getTime()
+        hero.staminaFullAt.getTime() - currentTime.getTime()
 
     const diffInMinutes = dateFns.millisecondsToMinutes(diffInMilliseconds)
 

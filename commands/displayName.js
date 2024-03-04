@@ -49,7 +49,7 @@ module.exports = {
             .setTitle(Lang.trans(interaction, 'display_name.title'))
             .setDescription(
                 Lang.trans(interaction, 'display_name.description', {
-                    enabled: enabled ? 'enabled' : 'disabled,
+                    enabled: enabled ? 'enabled' : 'disabled',
                 }),
             )
 

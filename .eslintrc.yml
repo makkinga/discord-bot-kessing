@@ -7,7 +7,3 @@ extends:
   - prettier
 parserOptions:
   ecmaVersion: latest
-rules:
-  quotes:
-    - error
-    - single

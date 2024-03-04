@@ -20,7 +20,7 @@ module.exports = {
 
         // Reply
         await interaction.editReply({
-            content: `${parseFloat(balance).toFixed(2)} JEWEL,
+            content: `${parseFloat(balance).toFixed(2)} JEWEL`,
         })
     },
 }

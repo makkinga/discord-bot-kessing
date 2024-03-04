@@ -60,7 +60,7 @@ exports.accountHolders = sequelize.define('account_holder', {
     },
     show_name: {
         type: Sequelize.BOOLEAN,
-        default: tru,
+        default: true,
     },
     send_dm: {
         type: Sequelize.BOOLEAN,

@@ -80,7 +80,7 @@ app.post('/verify-account', async function (request, response) {
                 address: address,
                 role: false,
                 show_name: true,
-                send_dm: fals,
+                send_dm: false,
             })
 
             response.writeHead(200, { 'Content-Type': 'application/json' })
@@ -101,7 +101,7 @@ app.post('/verify-account', async function (request, response) {
 
         response.writeHead(500, { 'Content-Type': 'application/json' })
         response.write(
-            JSON.stringify({ success: false, message: 'An error occurred' },
+            JSON.stringify({ success: false, message: 'An error occurred' }),
         )
         response.end()
     }

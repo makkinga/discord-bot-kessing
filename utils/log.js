@@ -26,6 +26,6 @@ exports.error = function (interaction, code, error) {
 
     console.error(
         `Error E${code.toString().padStart(3, '0')} (${reference}) by user ${interaction.user.id}:`,
-        erro,
+        error,
     )
 }

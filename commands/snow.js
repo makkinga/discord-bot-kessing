@@ -170,7 +170,7 @@ module.exports = {
             )
         } else {
             const noMembersEmbed = new EmbedBuilder().setDescription(
-                'No members found to snow upon,
+                'No members found to snow upon',
             )
 
             return await interaction.editReply({ embeds: [noMembersEmbed] })

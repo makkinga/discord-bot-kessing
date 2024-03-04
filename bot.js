@@ -95,7 +95,7 @@ async function setPresence() {
             activities: [
                 {
                     name: `1CR at $${crystalPriceUsd} (${crystalPriceChange}%)`,
-                    type: ,
+                    type: 3,
                 },
             ],
         })
@@ -106,7 +106,7 @@ async function setPresence() {
             activities: [
                 {
                     name: `1JA at $${jadePriceUsd} (${jadePriceChange}%)`,
-                    type: 3
+                    type: 3,
                 },
             ],
         })
@@ -117,16 +117,16 @@ async function setPresence() {
 
 async function getTokenInfo() {
     try {
-        const jewelInfo   = await Token.jewelInfo()
+        const jewelInfo = await Token.jewelInfo()
         const crystalInfo = await Token.crystalInfo()
-        const jadeInfo    = await Token.jadeInfo()
+        const jadeInfo = await Token.jadeInfo()
 
-        jewelPriceUsd      = parseFloat(jewelInfo.priceUsd).toFixed(3)
-        jewelPriceChange   = jewelInfo.priceChange.h24
-        crystalPriceUsd    = parseFloat(crystalInfo.priceUsd).toFixed(3)
+        jewelPriceUsd = parseFloat(jewelInfo.priceUsd).toFixed(3)
+        jewelPriceChange = jewelInfo.priceChange.h24
+        crystalPriceUsd = parseFloat(crystalInfo.priceUsd).toFixed(3)
         crystalPriceChange = crystalInfo.priceChange.h24
-        jadePriceUsd       = parseFloat(jadeInfo.priceUsd).toFixed(3)
-        jadePriceChange    = jadeInfo.priceChange.h24
+        jadePriceUsd = parseFloat(jadeInfo.priceUsd).toFixed(3)
+        jadePriceChange = jadeInfo.priceChange.h24
     } catch (error) {
         console.warn('Unable to get price')
 
@@ -142,7 +142,7 @@ async function getTokenInfo() {
 async function accountRoles() {
     const accounts = await DB.accountHolders.findAll({
         where: {
-            role: false
+            role: false,
         },
     })
 
@@ -151,7 +151,7 @@ async function accountRoles() {
             const role = client.guilds.cache
                 .get(process.env.GUILD_ID)
                 .roles.cache.find(
-                    (role) => role.id === process.env.ACCOUNT_ROLE
+                    (role) => role.id === process.env.ACCOUNT_ROLE,
                 )
             const member = client.guilds.cache
                 .get(process.env.GUILD_ID)

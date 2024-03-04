@@ -97,7 +97,7 @@ exports.make = async function (interaction, member, from, to, token, amount) {
             to,
             ethers.utils.parseEther(amount.toString()),
             token === 'JEWEL' ? artifact.bank_address : artifact.address,
-            optios,
+            options,
         )
 
         await transaction.wait(1)
@@ -128,7 +128,7 @@ exports.make = async function (interaction, member, from, to, token, amount) {
         const toNotification = new EmbedBuilder()
             .setTitle('You got tipped!')
             .setDescription(
-                `@${interaction.user.username} tipped you ${amount} ${artifact.name} in <#${interaction.channel.id}>,
+                `@${interaction.user.username} tipped you ${amount} ${artifact.name} in <#${interaction.channel.id}>`,
             )
             .setTimestamp()
 
@@ -157,7 +157,7 @@ exports.make = async function (interaction, member, from, to, token, amount) {
  * @param role
  * @returns {Promise<void>}
  */
-exports.split = async function(
+exports.split = async function (
     interaction,
     members,
     from,
@@ -167,22 +167,22 @@ exports.split = async function(
     role = null,
 ) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-    const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce    = await this.getNonce(provider, signer)
+    const signer = new ethers.Wallet(process.env.BOT_PKEY, provider)
+    const nonce = await this.getNonce(provider, signer)
     console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
-    const options        = {
+    const options = {
         maxFeePerGas: 50000000000,
         maxPriorityFeePerGas: 4000000000,
-        nonce       : nonce,
+        nonce: nonce,
     }
     const tipperContract = new ethers.Contract(
         tipperArtifact.address,
         tipperArtifact.abi,
         provider,
     )
-    const tipper         = tipperContract.connect(signer)
-    const artifact       = await Token.artifact(token)
+    const tipper = tipperContract.connect(signer)
+    const artifact = await Token.artifact(token)
     await checkGas(provider, signer)
     let transaction
 
@@ -220,12 +220,12 @@ exports.split = async function(
         // }
     }
 
-    const rain           = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
-    const rained         = artifact.name === 'CRYSTAL' ? 'snowed' : 'rained'
-    let hiddenMembers    = 0
-    let memberList       = []
+    const rain = artifact.name === 'CRYSTAL' ? 'Snow' : 'Rain'
+    const rained = artifact.name === 'CRYSTAL' ? 'snowed' : 'rained'
+    let hiddenMembers = 0
+    let memberList = []
     const accountHolders = await DB.accountHolders.findAll({
-        where     : {
+        where: {
             user: members.map((m) => m.id),
         },
         attributes: ['user', 'show_name', 'send_dm'],
@@ -243,14 +243,14 @@ exports.split = async function(
         }
     }
     const embed = new EmbedBuilder().setAuthor({
-        name   :
+        name:
             `@${interaction.user.username} ${rained} ${amount} ${artifact.name}` +
             (role ? ` on @${role.name}` : ''),
         iconURL: config.token_icons[artifact.name],
     })
     if (hiddenMembers < members.length) {
         embed.setFields({
-            name : Lang.trans(interaction, 'rain.users_tipped', {
+            name: Lang.trans(interaction, 'rain.users_tipped', {
                 amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`,
             }),
             value: `${memberList.join(', ')}${hiddenMembers > 0 ? ` +${hiddenMembers} others` : ''}`,
@@ -258,8 +258,8 @@ exports.split = async function(
     }
     const fields = [
         {
-            name : Lang.trans(interaction, 'rain.users_tipped', {
-                amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`
+            name: Lang.trans(interaction, 'rain.users_tipped', {
+                amount: `${parseFloat(amount / members.length).toFixed(4)} ${artifact.name}`,
             }),
             value: members
                 .map(
@@ -269,28 +269,28 @@ exports.split = async function(
                 .join('\n '),
         },
         {
-            name  : Lang.trans(interaction, 'rain.total_tipped'),
-            value : `${amount} ${artifact.name}`,
-            inline: true
+            name: Lang.trans(interaction, 'rain.total_tipped'),
+            value: `${amount} ${artifact.name}`,
+            inline: true,
         },
         {
-            name  : Lang.trans(interaction, 'rain.channel'),
-            value : `#${interaction.channel.name}`,
-            inline: true
+            name: Lang.trans(interaction, 'rain.channel'),
+            value: `#${interaction.channel.name}`,
+            inline: true,
         },
     ]
     if (role) {
         fields.push({
-            name  : Lang.trans(interaction, 'rain.role'),
-            value : `@${role.name}`,
-            inline: false
+            name: Lang.trans(interaction, 'rain.role'),
+            value: `@${role.name}`,
+            inline: false,
         })
     }
 
     const receiptEmbed = new EmbedBuilder()
         .setAuthor({
-            name   : Lang.trans(interaction, 'rain.receipt_title', { rain }),
-            iconURL: config.token_icons[artifact.name]
+            name: Lang.trans(interaction, 'rain.receipt_title', { rain }),
+            iconURL: config.token_icons[artifact.name],
         })
         .setFields(fields)
         .setTimestamp()
@@ -299,14 +299,14 @@ exports.split = async function(
         new ButtonBuilder()
             .setLabel(Lang.trans(interaction, 'rain.explorer_button'))
             .setURL(
-                `https://subnets.avax.network/defi-kingdoms/tx/${transaction.hash}`
+                `https://subnets.avax.network/defi-kingdoms/tx/${transaction.hash}`,
             )
             .setStyle('Link'),
     )
 
     await interaction.user.send({
-        embeds    : [receiptEmbed],
-        components: [explorerLink]
+        embeds: [receiptEmbed],
+        components: [explorerLink],
     })
 
     await interaction.editReply({ embeds: [embed] })
@@ -318,7 +318,7 @@ exports.split = async function(
             const toNotification = new EmbedBuilder()
                 .setTitle(`You caught the ${rain.toLowerCase()}!`)
                 .setDescription(
-                    `@${interaction.user.username} tipped you ${parseFloat(amount / members.length).toFixed(4)} ${artifact.name} in <#${interaction.channel.id}>`
+                    `@${interaction.user.username} tipped you ${parseFloat(amount / members.length).toFixed(4)} ${artifact.name} in <#${interaction.channel.id}>`,
                 )
                 .setTimestamp()
 
@@ -340,29 +340,29 @@ exports.split = async function(
  */
 exports.burn = async function (interaction, from, token, amount) {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL)
-    const signer   = new ethers.Wallet(process.env.BOT_PKEY, provider)
-    const nonce    = await this.getNonce(provider, signer)
+    const signer = new ethers.Wallet(process.env.BOT_PKEY, provider)
+    const nonce = await this.getNonce(provider, signer)
     console.time(`transaction #${nonce}`)
     console.log(`nonce: ${nonce}`)
-    const options        = {
+    const options = {
         maxFeePerGas: 50000000000,
         maxPriorityFeePerGas: 4000000000,
-        nonce       : nonce
+        nonce: nonce,
     }
     const tipperContract = new ethers.Contract(
         tipperArtifact.address,
         tipperArtifact.abi,
-        provider
+        provider,
     )
-    const tipper         = tipperContract.connect(signer)
-    const artifact       = await Token.artifact(token)
+    const tipper = tipperContract.connect(signer)
+    const artifact = await Token.artifact(token)
 
     try {
         const transaction = await tipper.burn(
             from,
             ethers.utils.parseEther(amount.toString()),
             token === 'JEWEL' ? artifact.bank_address : artifact.address,
-            options
+            options,
         )
 
         await transaction.wait(1)
@@ -375,7 +375,7 @@ exports.burn = async function (interaction, from, token, amount) {
         await Log.error(
             interaction,
             4,
-            await getRevertReason(error.transaction.hash)
+            await getRevertReason(error.transaction.hash),
         )
 
         return await React.error(
@@ -384,15 +384,15 @@ exports.burn = async function (interaction, from, token, amount) {
             null,
             {
                 code: 4,
-                edit: true
+                edit: true,
             },
         )
         // }
     }
 
     const embed = new EmbedBuilder().setAuthor({
-        name   : `@${interaction.user.username} burned ${amount} ${artifact.name} 💀`,
-        iconURL: config.token_icons[artifact.name]
+        name: `@${interaction.user.username} burned ${amount} ${artifact.name} 💀`,
+        iconURL: config.token_icons[artifact.name],
     })
 
     await interaction.editReply({ embeds: [embed] })

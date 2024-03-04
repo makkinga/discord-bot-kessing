@@ -15,7 +15,7 @@ exports.error = async function (
     interaction,
     title,
     description = null,
-    options = {,
+    options = {},
 ) {
     const reference = `${interaction.user.id.slice(-3)}-${interaction.channelId.slice(-3)}-${interaction.id.slice(-3)}`
 
@@ -31,7 +31,7 @@ exports.error = async function (
             value: Lang.trans(interaction, 'error.description.bug_report', {
                 server: 'https://discord.gg/2CUcKRzCUj',
             }),
-            inline: false
+            inline: false,
         })
     }
 
@@ -42,7 +42,7 @@ exports.error = async function (
                 value: `\`E${options.code.toString().padStart(3, '0')}\``,
                 inline: true,
             },
-            { name: 'Reference', value: `\`${reference}\``, inline: true }
+            { name: 'Reference', value: `\`${reference}\``, inline: true },
         )
     }
 
